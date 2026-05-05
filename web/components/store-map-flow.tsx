@@ -8,7 +8,7 @@ import {
   getSavedLocation,
   saveRecipeSummary,
   saveStoreResults,
-  StoredStoreSearchResult
+  StoredStoreResult
 } from "@/lib/local-storage";
 import { toRecipeLocationQuery, toRecipePathSegment } from "@/lib/recipe-routing";
 import { Recipe } from "@/lib/types";
@@ -24,7 +24,7 @@ export function StoreMapFlow({
   browserMapsApiKey
 }: StoreMapFlowProps) {
   const [recipe, setRecipe] = useState<Recipe | null>(null);
-  const [stores, setStores] = useState<StoredStoreSearchResult[]>([]);
+  const [stores, setStores] = useState<StoredStoreResult[]>([]);
   const [missingIngredients, setMissingIngredients] = useState<string[]>([]);
   const [locationLabel, setLocationLabel] = useState("");
   const [coordinates, setCoordinates] = useState<{ latitude: number; longitude: number } | null>(

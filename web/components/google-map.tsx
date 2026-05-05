@@ -126,4 +126,3 @@ export function GoogleMap({
 
   return <div ref={mapRef} className="card-surface min-h-[420px] overflow-hidden" />;
 }
-
