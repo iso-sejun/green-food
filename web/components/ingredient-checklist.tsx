@@ -24,6 +24,12 @@ export function IngredientChecklist({
   const missingCount = ingredients.filter(
     (ingredient) => !checkedSet.has(ingredient.id)
   ).length;
+  const sortedIngredients = useMemo(() => {
+    const unchecked = ingredients.filter((ingredient) => !checkedSet.has(ingredient.id));
+    const checked = ingredients.filter((ingredient) => checkedSet.has(ingredient.id));
+
+    return [...unchecked, ...checked];
+  }, [checkedSet, ingredients]);
 
   function toggleIngredient(ingredientId: string) {
     const next = checkedSet.has(ingredientId)
@@ -51,7 +57,7 @@ export function IngredientChecklist({
       </div>
 
       <div className="mt-8 space-y-3">
-        {ingredients.map((ingredient) => {
+        {sortedIngredients.map((ingredient) => {
           const checked = checkedSet.has(ingredient.id);
 
           return (
@@ -59,7 +65,7 @@ export function IngredientChecklist({
               key={ingredient.id}
               className={`flex cursor-pointer items-start gap-4 rounded-[1.25rem] border px-4 py-4 transition ${
                 checked
-                  ? "border-[rgba(120,220,168,0.7)] bg-[rgba(120,220,168,0.18)]"
+                  ? "border-[rgba(120,220,168,0.9)] bg-[rgba(120,220,168,0.22)]"
                   : "border-slate-200 bg-white"
               }`}
             >
@@ -70,10 +76,25 @@ export function IngredientChecklist({
                 className="mt-1 h-5 w-5 rounded border-slate-300 accent-[var(--bg-navy)]"
               />
               <div>
-                <p className="text-lg font-semibold text-[var(--bg-navy)]">
-                  {ingredient.text}
-                </p>
-                <p className="mt-1 text-sm leading-6 text-[var(--text-soft)]">
+                <div className="flex flex-wrap items-center gap-3">
+                  <p
+                    className={`text-lg font-semibold ${
+                      checked ? "text-[rgba(18,33,51,0.66)] line-through" : "text-[var(--bg-navy)]"
+                    }`}
+                  >
+                    {ingredient.text}
+                  </p>
+                  {checked ? (
+                    <span className="rounded-full bg-[var(--bg-navy)] px-3 py-1 text-xs font-bold uppercase tracking-[0.08em] text-white">
+                      Already have
+                    </span>
+                  ) : null}
+                </div>
+                <p
+                  className={`mt-1 text-sm leading-6 ${
+                    checked ? "text-[rgba(73,89,107,0.82)]" : "text-[var(--text-soft)]"
+                  }`}
+                >
                   {ingredient.category
                     ? `Likely category: ${ingredient.category}`
                     : "No ingredient category returned by Edamam for this item."}
@@ -86,4 +107,3 @@ export function IngredientChecklist({
     </div>
   );
 }
-
