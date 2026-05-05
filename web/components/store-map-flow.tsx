@@ -119,7 +119,7 @@ export function StoreMapFlow({
         <p className="text-lg text-red-700">{error ?? "Unable to load the map step."}</p>
         <Link
           href={`/location?recipeId=${toRecipeLocationQuery(recipeId)}`}
-          className="mt-6 inline-flex rounded-full bg-[var(--bg-navy)] px-5 py-3 font-[family-name:var(--font-display)] text-sm font-bold uppercase tracking-[0.08em] text-white"
+          className="cta cta-primary mt-6"
         >
           Update location
         </Link>
@@ -164,7 +164,7 @@ export function StoreMapFlow({
                     href={store.googleMapsUri}
                     target="_blank"
                     rel="noreferrer"
-                    className="mt-4 inline-flex rounded-full border border-[var(--line)] px-4 py-2 text-sm font-bold uppercase tracking-[0.08em] text-[var(--bg-navy)]"
+                    className="cta cta-secondary mt-4"
                   >
                     Open in Google Maps
                   </a>
@@ -204,13 +204,13 @@ export function StoreMapFlow({
           <div className="mt-6 flex flex-wrap gap-3">
             <Link
               href="/saved"
-              className="rounded-full bg-[var(--bg-mint)] px-5 py-3 font-[family-name:var(--font-display)] text-sm font-bold uppercase tracking-[0.08em] text-[var(--bg-navy)]"
+              className="cta cta-accent"
             >
               View saved recipes
             </Link>
             <Link
               href={`/recipes/${toRecipePathSegment(recipeId)}/impact`}
-              className="rounded-full border border-white/20 px-5 py-3 font-[family-name:var(--font-display)] text-sm font-bold uppercase tracking-[0.08em] text-white"
+              className="cta cta-secondary-inverse"
             >
               Continue to impact
             </Link>

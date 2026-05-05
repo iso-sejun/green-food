@@ -56,7 +56,7 @@ export function SearchHero({
             </p>
             <button
               type="submit"
-              className="rounded-full bg-[var(--bg-mint)] px-5 py-3 font-[family-name:var(--font-display)] text-sm font-bold uppercase tracking-[0.08em] text-[var(--bg-navy)] transition hover:translate-y-[-1px]"
+              className="cta cta-accent transition hover:translate-y-[-1px]"
             >
               Search recipes
             </button>
@@ -116,7 +116,7 @@ export function SearchHero({
               </p>
               <button
                 type="submit"
-                className="rounded-full bg-[var(--bg-mint)] px-5 py-3 font-[family-name:var(--font-display)] text-sm font-bold uppercase tracking-[0.08em] text-[var(--bg-navy)] transition hover:translate-y-[-1px]"
+                className="cta cta-accent transition hover:translate-y-[-1px]"
               >
                 Search recipes
               </button>

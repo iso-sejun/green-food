@@ -94,14 +94,14 @@ export function LocationFlow({ recipeId }: LocationFlowProps) {
             <button
               type="button"
               onClick={proceed}
-              className="rounded-full bg-[var(--bg-navy)] px-5 py-3 font-[family-name:var(--font-display)] text-sm font-bold uppercase tracking-[0.08em] text-white"
+              className="cta cta-primary"
             >
               Use this location
             </button>
             <button
               type="button"
               onClick={() => setIsEditing(true)}
-              className="rounded-full border border-[var(--line)] px-5 py-3 font-[family-name:var(--font-display)] text-sm font-bold uppercase tracking-[0.08em] text-[var(--bg-navy)]"
+              className="cta cta-secondary"
             >
               Update location
             </button>
@@ -119,7 +119,7 @@ export function LocationFlow({ recipeId }: LocationFlowProps) {
           <button
             type="button"
             onClick={onClear}
-            className="mt-8 rounded-full border border-[rgba(16,28,48,0.2)] bg-white/55 px-5 py-3 font-[family-name:var(--font-display)] text-sm font-bold uppercase tracking-[0.08em]"
+            className="cta cta-subtle mt-8"
           >
             Clear saved location
           </button>
@@ -175,7 +175,7 @@ export function LocationFlow({ recipeId }: LocationFlowProps) {
 
         <button
           type="submit"
-          className="mt-8 rounded-full bg-[var(--bg-navy)] px-6 py-4 font-[family-name:var(--font-display)] text-sm font-bold uppercase tracking-[0.08em] text-white"
+          className="cta cta-primary mt-8"
         >
           Save and continue
         </button>

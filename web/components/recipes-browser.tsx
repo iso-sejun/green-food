@@ -82,7 +82,7 @@ export function RecipesBrowser({
             type="button"
             onClick={loadMore}
             disabled={isLoadingMore}
-            className="rounded-full border border-[var(--line)] bg-white px-6 py-4 font-[family-name:var(--font-display)] text-sm font-bold uppercase tracking-[0.08em] text-[var(--bg-navy)] transition hover:translate-y-[-1px] disabled:cursor-wait disabled:opacity-65"
+            className="cta cta-secondary transition hover:translate-y-[-1px] disabled:cursor-wait disabled:opacity-65"
           >
             {isLoadingMore ? "Loading..." : "Load More"}
           </button>

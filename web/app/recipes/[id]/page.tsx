@@ -90,7 +90,7 @@ export default async function RecipeDetailPage({
             </p>
             <Link
               href={`/location?recipeId=${toRecipeLocationQuery(recipe.id)}`}
-              className="mt-6 inline-flex rounded-full bg-[var(--bg-mint)] px-5 py-3 font-[family-name:var(--font-display)] text-sm font-bold uppercase tracking-[0.08em] text-[var(--bg-navy)]"
+              className="cta cta-accent mt-6"
             >
               Start making
             </Link>
@@ -109,7 +109,7 @@ export default async function RecipeDetailPage({
             </ul>
             <Link
               href={`/recipes/${toRecipePathSegment(recipe.id)}/ingredients`}
-              className="mt-6 inline-flex rounded-full border border-[var(--line)] px-5 py-3 font-[family-name:var(--font-display)] text-sm font-bold uppercase tracking-[0.08em] text-[var(--bg-navy)]"
+              className="cta cta-secondary mt-6"
             >
               Review full checklist
             </Link>

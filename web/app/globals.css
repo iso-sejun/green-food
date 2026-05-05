@@ -82,9 +82,57 @@ input {
   box-shadow: var(--shadow-card);
 }
 
+.cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3.25rem;
+  border-radius: 999px;
+  padding: 0.8rem 1.3rem;
+  font-family: var(--font-display), sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.cta-primary {
+  background: var(--bg-navy);
+  color: #f8fbff;
+}
+
+.cta-accent {
+  background: var(--bg-mint);
+  color: var(--bg-navy);
+}
+
+.cta-secondary {
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--bg-navy);
+}
+
+.cta-secondary-inverse {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: transparent;
+  color: #f8fbff;
+}
+
+.cta-subtle {
+  border: 1px solid rgba(16, 28, 48, 0.16);
+  background: rgba(255, 255, 255, 0.6);
+  color: var(--bg-navy);
+}
+
+.cta-danger {
+  border: 1px solid #fecaca;
+  background: #fff5f5;
+  color: #b91c1c;
+}
+
 @media (min-width: 768px) {
   .section {
     padding: 6rem 0;
   }
 }
-

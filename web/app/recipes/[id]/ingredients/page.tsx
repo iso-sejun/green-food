@@ -43,11 +43,9 @@ export default async function IngredientChecklistPage({
             </p>
             <Link
               href={`/recipes/${recipe.id}/stores`}
-              className="mt-6 inline-flex min-h-14 items-center justify-center rounded-full bg-[var(--bg-navy)] px-6 py-4 no-underline"
+              className="cta cta-primary mt-6"
             >
-              <span className="font-[family-name:var(--font-display)] text-sm font-bold uppercase tracking-[0.08em] text-white">
-                Continue to stores
-              </span>
+              Continue to stores
             </Link>
           </div>
 

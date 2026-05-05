@@ -143,7 +143,7 @@ export function ImpactReportFlow({ recipeId }: ImpactReportFlowProps) {
         <div className="mt-6 flex flex-wrap gap-3">
           <Link
             href={`/recipes/${toRecipePathSegment(recipeId)}/stores`}
-            className="rounded-full bg-[var(--bg-navy)] px-5 py-3 font-[family-name:var(--font-display)] text-sm font-bold uppercase tracking-[0.08em] text-white"
+            className="cta cta-primary"
           >
             Return to map
           </Link>
@@ -220,13 +220,13 @@ export function ImpactReportFlow({ recipeId }: ImpactReportFlowProps) {
           <div className="mt-8 flex flex-wrap gap-3">
             <Link
               href={`/recipes/${toRecipePathSegment(recipeId)}/stores`}
-              className="rounded-full border border-[rgba(16,28,48,0.16)] bg-white/60 px-5 py-3 font-[family-name:var(--font-display)] text-sm font-bold uppercase tracking-[0.08em]"
+              className="cta cta-subtle"
             >
               Return to map
             </Link>
             <Link
               href="/saved"
-              className="rounded-full bg-[var(--bg-navy)] px-5 py-3 font-[family-name:var(--font-display)] text-sm font-bold uppercase tracking-[0.08em] text-white"
+              className="cta cta-primary"
             >
               View saved recipes
             </Link>

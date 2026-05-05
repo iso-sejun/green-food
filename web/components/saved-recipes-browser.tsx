@@ -90,14 +90,14 @@ export function SavedRecipesBrowser() {
               <div className="mt-8 flex flex-wrap gap-3">
                 <Link
                   href={`/recipes/${toRecipePathSegment(recipe.id)}`}
-                  className="rounded-full bg-[var(--bg-navy)] px-5 py-3 font-[family-name:var(--font-display)] text-sm font-bold uppercase tracking-[0.08em] text-white"
+                  className="cta cta-primary"
                 >
                   Open recipe
                 </Link>
                 {storeResults ? (
                   <Link
                     href={`/recipes/${toRecipePathSegment(recipe.id)}/stores`}
-                    className="rounded-full border border-[var(--line)] px-5 py-3 font-[family-name:var(--font-display)] text-sm font-bold uppercase tracking-[0.08em] text-[var(--bg-navy)]"
+                    className="cta cta-secondary"
                   >
                     Return to map
                   </Link>
@@ -105,7 +105,7 @@ export function SavedRecipesBrowser() {
                 {impactReport ? (
                   <Link
                     href={`/recipes/${toRecipePathSegment(recipe.id)}/impact`}
-                    className="rounded-full border border-[var(--line)] px-5 py-3 font-[family-name:var(--font-display)] text-sm font-bold uppercase tracking-[0.08em] text-[var(--bg-navy)]"
+                    className="cta cta-secondary"
                   >
                     View impact
                   </Link>
@@ -113,7 +113,7 @@ export function SavedRecipesBrowser() {
                 <button
                   type="button"
                   onClick={() => onRemove(recipe.id)}
-                  className="rounded-full border border-red-200 px-5 py-3 font-[family-name:var(--font-display)] text-sm font-bold uppercase tracking-[0.08em] text-red-700"
+                  className="cta cta-danger"
                 >
                   Remove
                 </button>
