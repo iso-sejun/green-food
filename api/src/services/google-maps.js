@@ -13,8 +13,7 @@ const STORE_SEARCH_TIERS = [
     "asian_grocery_store",
     "food_store",
     "market",
-    "butcher_shop",
-    "convenience_store"
+    "butcher_shop"
   ]
 ];
 
@@ -39,11 +38,31 @@ const TYPE_SCORES = {
   asian_grocery_store: 92,
   food_store: 88,
   market: 75,
-  butcher_shop: 70,
-  convenience_store: 55
+  butcher_shop: 70
 };
 
 const NAME_KEYWORD_BONUS = ["market", "grocery", "foods", "supermarket", "mart"];
+const CHAIN_SCORE_BONUSES = [
+  { match: "walmart", bonus: 25, reason: "Matched major grocery chain Walmart" },
+  { match: "fred meyer", bonus: 25, reason: "Matched major grocery chain Fred Meyer" },
+  { match: "safeway", bonus: 25, reason: "Matched major grocery chain Safeway" },
+  { match: "albertsons", bonus: 25, reason: "Matched major grocery chain Albertsons" },
+  { match: "kroger", bonus: 25, reason: "Matched major grocery chain Kroger" },
+  { match: "price chopper", bonus: 25, reason: "Matched major grocery chain Price Chopper" },
+  { match: "whole foods", bonus: 22, reason: "Matched major grocery chain Whole Foods" },
+  { match: "trader joe", bonus: 22, reason: "Matched major grocery chain Trader Joe's" },
+  { match: "hannaford", bonus: 22, reason: "Matched major grocery chain Hannaford" },
+  { match: "stop shop", bonus: 22, reason: "Matched major grocery chain Stop & Shop" },
+  { match: "publix", bonus: 22, reason: "Matched major grocery chain Publix" },
+  { match: "wegmans", bonus: 22, reason: "Matched major grocery chain Wegmans" },
+  { match: "food lion", bonus: 22, reason: "Matched major grocery chain Food Lion" },
+  { match: "shoprite", bonus: 22, reason: "Matched major grocery chain ShopRite" },
+  { match: "h mart", bonus: 20, reason: "Matched specialty grocery chain H Mart" },
+  { match: "hmart", bonus: 20, reason: "Matched specialty grocery chain H Mart" },
+  { match: "99 ranch", bonus: 20, reason: "Matched specialty grocery chain 99 Ranch" },
+  { match: "ranch 99", bonus: 20, reason: "Matched specialty grocery chain 99 Ranch" },
+  { match: "patel brothers", bonus: 20, reason: "Matched specialty grocery chain Patel Brothers" }
+];
 const INTERNATIONAL_INGREDIENT_HINTS = [
   "soy",
   "miso",
@@ -88,6 +107,14 @@ function normalizeTextList(values) {
         .map((value) => (typeof value === "string" ? value.trim().toLowerCase() : ""))
         .filter(Boolean)
     : [];
+}
+
+function normalizeStoreName(value) {
+  return value
+    .toLowerCase()
+    .replace(/['’.&,-]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
 function buildSearchTiers({ ingredientNames = [], ingredientCategories = [] } = {}) {
@@ -143,7 +170,8 @@ function isAllowedStorePlace(place) {
 function scoreStorePlace(place, origin) {
   const primaryType = place.primaryType ?? null;
   const types = Array.isArray(place.types) ? place.types : [];
-  const normalizedName = (place.displayName?.text ?? "").toLowerCase();
+  const rawName = place.displayName?.text ?? "";
+  const normalizedName = normalizeStoreName(rawName);
   const latitude = place.location?.latitude ?? origin.latitude;
   const longitude = place.location?.longitude ?? origin.longitude;
   const distanceScore = Math.hypot(latitude - origin.latitude, longitude - origin.longitude);
@@ -157,6 +185,12 @@ function scoreStorePlace(place, origin) {
 
   if (NAME_KEYWORD_BONUS.some((keyword) => normalizedName.includes(keyword))) {
     score += 10;
+  }
+
+  const chainMatch = CHAIN_SCORE_BONUSES.find(({ match }) => normalizedName.includes(match));
+
+  if (chainMatch) {
+    score += chainMatch.bonus;
   }
 
   const confidenceTier = STRICT_ALLOWED_PRIMARY_TYPES.has(primaryType)
@@ -175,11 +209,13 @@ function scoreStorePlace(place, origin) {
     primaryType,
     types,
     confidenceTier,
-    matchReason: primaryType
-      ? `Primary type ${primaryType}`
-      : types.length
-        ? `Matched store type ${types.find((type) => RELAXED_ALLOWED_PRIMARY_TYPES.has(type)) ?? types[0]}`
-        : "Matched by Google place data",
+    matchReason: chainMatch
+      ? chainMatch.reason
+      : primaryType
+        ? `Primary type ${primaryType}`
+        : types.length
+          ? `Matched store type ${types.find((type) => RELAXED_ALLOWED_PRIMARY_TYPES.has(type)) ?? types[0]}`
+          : "Matched by Google place data",
     score,
     distanceScore
   };
