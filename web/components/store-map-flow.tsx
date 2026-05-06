@@ -11,6 +11,10 @@ import {
   StoredStoreResult
 } from "@/lib/local-storage";
 import { toRecipeLocationQuery, toRecipePathSegment } from "@/lib/recipe-routing";
+import {
+  getRecipeFromSessionCache,
+  setRecipeInSessionCache
+} from "@/lib/recipe-session-cache";
 import { Recipe } from "@/lib/types";
 import { GoogleMap } from "./google-map";
 
@@ -44,8 +48,9 @@ export function StoreMapFlow({
           throw new Error("No saved location found. Please add your location first.");
         }
 
+        const cachedRecipe = getRecipeFromSessionCache(recipeId);
         const [recipeDetail, geo] = await Promise.all([
-          fetchRecipeDetail(recipeId),
+          cachedRecipe ? Promise.resolve(cachedRecipe) : fetchRecipeDetail(recipeId),
           geocodeLocation(savedLocation.label)
         ]);
 
@@ -75,6 +80,7 @@ export function StoreMapFlow({
         setStatus("ready");
 
         saveRecipeSummary(recipeDetail);
+        setRecipeInSessionCache(recipeDetail);
         saveStoreResults(recipeId, {
           recipeId,
           locationLabel: geo.label,

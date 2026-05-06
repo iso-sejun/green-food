@@ -11,6 +11,10 @@ import {
   StoredImpactReport
 } from "@/lib/local-storage";
 import { toRecipePathSegment } from "@/lib/recipe-routing";
+import {
+  getRecipeFromSessionCache,
+  setRecipeInSessionCache
+} from "@/lib/recipe-session-cache";
 import { Recipe } from "@/lib/types";
 
 const MILES_PER_KILOMETER = 0.621371;
@@ -53,13 +57,15 @@ export function ImpactReportFlow({ recipeId }: ImpactReportFlowProps) {
       try {
         const cached = getImpactReport(recipeId);
         const storeResults = getStoreResults(recipeId);
-        const recipeDetail = await fetchRecipeDetail(recipeId);
+        const cachedRecipe = getRecipeFromSessionCache(recipeId);
+        const recipeDetail = cachedRecipe ?? (await fetchRecipeDetail(recipeId));
 
         if (cancelled) {
           return;
         }
 
         saveRecipeSummary(recipeDetail);
+        setRecipeInSessionCache(recipeDetail);
         setRecipe(recipeDetail);
 
         if (cached) {

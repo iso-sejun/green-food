@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { IngredientChecklist } from "@/components/ingredient-checklist";
 import { fetchRecipeDetail } from "@/lib/api";
+import { toRecipePathSegment } from "@/lib/recipe-routing";
 
 type IngredientChecklistPageProps = {
   params: Promise<{ id: string }>;
@@ -42,7 +43,7 @@ export default async function IngredientChecklistPage({
               within 10 miles that are likely to carry the remaining items.
             </p>
             <Link
-              href={`/recipes/${recipe.id}/stores`}
+              href={`/recipes/${toRecipePathSegment(recipe.id)}/stores`}
               className="cta cta-primary mt-6"
             >
               Continue to stores

@@ -1,5 +1,45 @@
 import { HttpError } from "../lib/http-error.js";
 import { requireEnv } from "../lib/env.js";
+import { createInflightRequestStore } from "../lib/inflight-requests.js";
+import { createMemoryCache } from "../lib/memory-cache.js";
+
+const searchCache = createMemoryCache({
+  ttlMs: 2 * 60 * 1000,
+  maxEntries: 50
+});
+
+const detailCache = createMemoryCache({
+  ttlMs: 5 * 60 * 1000,
+  maxEntries: 100
+});
+
+const inflightRequests = createInflightRequestStore();
+
+function buildFriendlyEdamamError(status, message) {
+  const normalizedMessage = message.toLowerCase();
+
+  if (
+    status === 429 ||
+    normalizedMessage.includes("rate limit") ||
+    normalizedMessage.includes("quota") ||
+    normalizedMessage.includes("too many")
+  ) {
+    return new HttpError(
+      429,
+      "Recipe service is temporarily busy. Please wait a moment and try again.",
+      {
+        provider: "edamam",
+        upstreamStatus: status,
+        message
+      }
+    );
+  }
+
+  return new HttpError(status, "Edamam request failed", {
+    provider: "edamam",
+    message
+  });
+}
 
 function buildRecipeId(uri) {
   return encodeURIComponent(uri);
@@ -100,10 +140,7 @@ async function edamamRequest(path, params) {
 
   if (!response.ok) {
     const message = await response.text();
-    throw new HttpError(response.status, "Edamam request failed", {
-      provider: "edamam",
-      message
-    });
+    throw buildFriendlyEdamamError(response.status, message);
   }
 
   return response.json();
@@ -120,10 +157,7 @@ async function edamamAbsoluteRequest(urlString) {
 
   if (!response.ok) {
     const message = await response.text();
-    throw new HttpError(response.status, "Edamam request failed", {
-      provider: "edamam",
-      message
-    });
+    throw buildFriendlyEdamamError(response.status, message);
   }
 
   return response.json();
@@ -142,36 +176,83 @@ function normalizeSearchResult(data, query) {
   };
 }
 
-export async function searchRecipes(query) {
-  const data = await edamamRequest("/api/recipes/v2", {
-    q: query || "recipe",
-    beta: true,
-    imageSize: "LARGE",
-    random: false
+async function cachedSearch(cacheKey, fetcher) {
+  const cached = searchCache.get(cacheKey);
+
+  if (cached) {
+    console.info(`[edamam-cache] search hit: ${cacheKey}`);
+    return cached;
+  }
+
+  const result = await inflightRequests.run(cacheKey, async () => {
+    console.info(`[edamam-cache] search miss: ${cacheKey}`);
+    const fresh = await fetcher();
+    return searchCache.set(cacheKey, fresh);
   });
 
-  return normalizeSearchResult(data, query);
+  return result;
+}
+
+async function cachedDetail(cacheKey, fetcher) {
+  const cached = detailCache.get(cacheKey);
+
+  if (cached) {
+    console.info(`[edamam-cache] detail hit: ${cacheKey}`);
+    return cached;
+  }
+
+  const result = await inflightRequests.run(cacheKey, async () => {
+    console.info(`[edamam-cache] detail miss: ${cacheKey}`);
+    const fresh = await fetcher();
+    return detailCache.set(cacheKey, fresh);
+  });
+
+  return result;
+}
+
+export async function searchRecipes(query) {
+  const normalizedQuery = query || "recipe";
+  const cacheKey = `recipe-search:${normalizedQuery}`;
+
+  return cachedSearch(cacheKey, async () => {
+    const data = await edamamRequest("/api/recipes/v2", {
+      q: normalizedQuery,
+      beta: true,
+      imageSize: "LARGE",
+      random: false
+    });
+
+    return normalizeSearchResult(data, query);
+  });
 }
 
 export async function searchRecipesNextPage(nextPageToken, query) {
-  const nextUrl = decodeNextPage(nextPageToken);
-  const data = await edamamAbsoluteRequest(nextUrl);
+  const cacheKey = `recipe-search:${query || "recipe"}:next:${nextPageToken}`;
 
-  return normalizeSearchResult(data, query);
+  return cachedSearch(cacheKey, async () => {
+    const nextUrl = decodeNextPage(nextPageToken);
+    const data = await edamamAbsoluteRequest(nextUrl);
+
+    return normalizeSearchResult(data, query);
+  });
 }
 
 export async function getRecipeById(id) {
-  const uri = decodeURIComponent(id);
-  const data = await edamamRequest("/api/recipes/v2/by-uri", {
-    uri,
-    beta: true
+  const cacheKey = `recipe-detail:${id}`;
+
+  return cachedDetail(cacheKey, async () => {
+    const uri = decodeURIComponent(id);
+    const data = await edamamRequest("/api/recipes/v2/by-uri", {
+      uri,
+      beta: true
+    });
+
+    const recipe = data.hits?.[0]?.recipe;
+
+    if (!recipe) {
+      throw new HttpError(404, "Recipe not found");
+    }
+
+    return normalizeRecipe(recipe);
   });
-
-  const recipe = data.hits?.[0]?.recipe;
-
-  if (!recipe) {
-    throw new HttpError(404, "Recipe not found");
-  }
-
-  return normalizeRecipe(recipe);
 }

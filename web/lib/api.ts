@@ -1,4 +1,8 @@
 import { Recipe, RecipeSearchResponse } from "./types";
+import {
+  getRecipeFromSessionCache,
+  setRecipeInSessionCache
+} from "./recipe-session-cache";
 
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:4000";
@@ -34,11 +38,25 @@ export async function fetchRecipeSearch(
 }
 
 export async function fetchRecipeDetail(id: string): Promise<Recipe> {
+  if (typeof window !== "undefined") {
+    const cached = getRecipeFromSessionCache(id);
+
+    if (cached) {
+      return cached;
+    }
+  }
+
   const response = await fetch(`${API_BASE_URL}/api/recipes/${id}`, {
     cache: "no-store"
   });
 
-  return parseResponse<Recipe>(response);
+  const recipe = await parseResponse<Recipe>(response);
+
+  if (typeof window !== "undefined") {
+    setRecipeInSessionCache(recipe);
+  }
+
+  return recipe;
 }
 
 export async function geocodeLocation(address: string): Promise<{
