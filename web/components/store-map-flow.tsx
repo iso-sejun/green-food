@@ -59,11 +59,24 @@ export function StoreMapFlow({
         }
 
         const checkedIds = new Set(getCheckedIngredientIds(recipeId));
-        const remaining = recipeDetail.ingredients
-          .filter((ingredient) => !checkedIds.has(ingredient.id))
-          .map((ingredient) => ingredient.food || ingredient.text);
+        const remainingIngredients = recipeDetail.ingredients.filter(
+          (ingredient) => !checkedIds.has(ingredient.id)
+        );
+        const remaining = remainingIngredients.map(
+          (ingredient) => ingredient.food || ingredient.text
+        );
+        const remainingCategories = Array.from(
+          new Set(
+            remainingIngredients
+              .map((ingredient) => ingredient.category)
+              .filter((category): category is string => Boolean(category))
+          )
+        );
 
-        const storeResponse = await fetchNearbyStores(geo.latitude, geo.longitude);
+        const storeResponse = await fetchNearbyStores(geo.latitude, geo.longitude, {
+          ingredientNames: remaining,
+          ingredientCategories: remainingCategories
+        });
 
         if (cancelled) {
           return;

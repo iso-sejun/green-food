@@ -34,6 +34,9 @@ export type StoredStoreResult = {
   longitude: number;
   googleMapsUri: string | null;
   primaryType: string | null;
+  types?: string[];
+  confidenceTier?: "high" | "medium" | "low";
+  matchReason?: string;
 };
 
 export type StoredStoreSearchResult = {

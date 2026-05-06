@@ -16,8 +16,13 @@ mapsRouter.post("/geocode", async (request, response, next) => {
 
 mapsRouter.post("/nearby-stores", async (request, response, next) => {
   try {
-    const { latitude, longitude } = request.body ?? {};
-    const stores = await searchNearbyStores({ latitude, longitude });
+    const { latitude, longitude, ingredientNames, ingredientCategories } = request.body ?? {};
+    const stores = await searchNearbyStores({
+      latitude,
+      longitude,
+      ingredientNames,
+      ingredientCategories
+    });
     response.json({ stores });
   } catch (error) {
     next(error);
@@ -34,4 +39,3 @@ mapsRouter.use((error, _request, response, next) => {
     details: error.details ?? null
   });
 });
-

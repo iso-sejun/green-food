@@ -76,7 +76,14 @@ export async function geocodeLocation(address: string): Promise<{
   return parseResponse(response);
 }
 
-export async function fetchNearbyStores(latitude: number, longitude: number): Promise<{
+export async function fetchNearbyStores(
+  latitude: number,
+  longitude: number,
+  options?: {
+    ingredientNames?: string[];
+    ingredientCategories?: string[];
+  }
+): Promise<{
   stores: Array<{
     id: string;
     name: string;
@@ -85,6 +92,9 @@ export async function fetchNearbyStores(latitude: number, longitude: number): Pr
     longitude: number;
     googleMapsUri: string | null;
     primaryType: string | null;
+    types?: string[];
+    confidenceTier?: "high" | "medium" | "low";
+    matchReason?: string;
   }>;
 }> {
   const response = await fetch(`${API_BASE_URL}/api/maps/nearby-stores`, {
@@ -92,7 +102,12 @@ export async function fetchNearbyStores(latitude: number, longitude: number): Pr
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({ latitude, longitude })
+    body: JSON.stringify({
+      latitude,
+      longitude,
+      ingredientNames: options?.ingredientNames ?? [],
+      ingredientCategories: options?.ingredientCategories ?? []
+    })
   });
 
   return parseResponse(response);
