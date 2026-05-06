@@ -1,6 +1,6 @@
-import Image from "next/image";
 import Link from "next/link";
 import { Recipe } from "@/lib/types";
+import { RecipeImage } from "./recipe-image";
 
 export function RecipeCard({ recipe }: { recipe: Recipe }) {
   return (
@@ -8,21 +8,12 @@ export function RecipeCard({ recipe }: { recipe: Recipe }) {
       href={`/recipes/${recipe.id}`}
       className="card-surface grid overflow-hidden bg-white transition duration-200 hover:translate-y-[-3px] md:grid-cols-[280px_1fr]"
     >
-      <div className="relative min-h-[240px] bg-[var(--bg-sky)]">
-        {recipe.image ? (
-          <Image
-            src={recipe.image}
-            alt={recipe.title}
-            fill
-            className="object-cover"
-            sizes="(max-width: 768px) 100vw, 280px"
-          />
-        ) : (
-          <div className="flex h-full items-center justify-center px-8 text-center font-[family-name:var(--font-display)] text-2xl font-bold text-[var(--bg-navy)]">
-            No image available
-          </div>
-        )}
-      </div>
+      <RecipeImage
+        src={recipe.image}
+        alt={recipe.title}
+        sizes="(max-width: 768px) 100vw, 280px"
+        containerClassName="relative min-h-[240px] bg-[var(--bg-sky)]"
+      />
       <div className="flex flex-col justify-between p-6 md:p-8">
         <div>
           <p className="text-sm font-semibold uppercase tracking-[0.08em] text-[var(--text-soft)]">
@@ -57,4 +48,3 @@ export function RecipeCard({ recipe }: { recipe: Recipe }) {
     </Link>
   );
 }
-

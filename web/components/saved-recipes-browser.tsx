@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import {
@@ -10,6 +9,7 @@ import {
   removeSavedRecipe
 } from "@/lib/local-storage";
 import { toRecipePathSegment } from "@/lib/recipe-routing";
+import { RecipeImage } from "./recipe-image";
 
 type SavedRecipeCard = ReturnType<typeof getSavedRecipes>[number];
 
@@ -59,17 +59,12 @@ export function SavedRecipesBrowser() {
             key={recipe.id}
             className="card-surface grid overflow-hidden bg-white md:grid-cols-[280px_1fr]"
           >
-            <div className="relative min-h-[220px] bg-[var(--bg-sky)]">
-              {recipe.image ? (
-                <Image
-                  src={recipe.image}
-                  alt={recipe.title}
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 280px"
-                />
-              ) : null}
-            </div>
+            <RecipeImage
+              src={recipe.image}
+              alt={recipe.title}
+              sizes="(max-width: 768px) 100vw, 280px"
+              containerClassName="relative min-h-[220px] bg-[var(--bg-sky)]"
+            />
             <div className="p-6 md:p-8">
               <p className="text-sm font-semibold uppercase tracking-[0.08em] text-[var(--text-soft)]">
                 {recipe.source}

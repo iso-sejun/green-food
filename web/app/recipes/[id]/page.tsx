@@ -1,5 +1,5 @@
-import Image from "next/image";
 import Link from "next/link";
+import { RecipeImage } from "@/components/recipe-image";
 import { fetchRecipeDetail } from "@/lib/api";
 import { toRecipeLocationQuery, toRecipePathSegment } from "@/lib/recipe-routing";
 
@@ -17,21 +17,13 @@ export default async function RecipeDetailPage({
     <main className="section">
       <div className="page-shell grid gap-8 xl:grid-cols-[1.2fr_0.8fr]">
         <section className="card-surface overflow-hidden bg-white">
-          <div className="relative min-h-[320px] bg-[var(--bg-sky)] md:min-h-[480px]">
-            {recipe.image ? (
-              <Image
-                src={recipe.image}
-                alt={recipe.title}
-                fill
-                className="object-cover"
-                sizes="(max-width: 1280px) 100vw, 720px"
-              />
-            ) : (
-              <div className="flex h-full items-center justify-center px-10 text-center font-[family-name:var(--font-display)] text-3xl font-bold text-[var(--bg-navy)]">
-                No image available
-              </div>
-            )}
-          </div>
+          <RecipeImage
+            src={recipe.image}
+            alt={recipe.title}
+            sizes="(max-width: 1280px) 100vw, 720px"
+            containerClassName="relative min-h-[320px] bg-[var(--bg-sky)] md:min-h-[480px]"
+            fallbackClassName="flex h-full items-center justify-center px-10 text-center font-[family-name:var(--font-display)] text-3xl font-bold text-[var(--bg-navy)]"
+          />
           <div className="p-6 md:p-8">
             <span className="eyebrow">Recipe Detail</span>
             <h1 className="font-[family-name:var(--font-display)] text-4xl font-bold leading-tight tracking-[-0.04em] text-[var(--bg-navy)] md:text-6xl">
