@@ -136,8 +136,8 @@ export function LocationFlow({ recipeId }: LocationFlowProps) {
           Add the location we should search around.
         </h2>
         <p className="mt-4 max-w-2xl text-lg leading-8 text-[var(--text-soft)]">
-          For now, this is browser-saved text input. In the next phase we will connect
-          it to Google Maps geocoding and nearby store search.
+          We save this locally in your browser, then geocode it with Google Maps
+          before looking for nearby grocery-oriented stores.
         </p>
 
         <div className="mt-8 space-y-5">
@@ -192,7 +192,7 @@ export function LocationFlow({ recipeId }: LocationFlowProps) {
         <ul className="mt-8 space-y-3 text-base leading-7 text-white/78">
           <li>Your location is stored locally in this browser for hackathon speed.</li>
           <li>The headbar will show the saved location after you continue.</li>
-          <li>Google Maps geocoding and store discovery come next.</li>
+          <li>Google Maps geocoding and store discovery happen in the next step.</li>
         </ul>
       </aside>
     </div>

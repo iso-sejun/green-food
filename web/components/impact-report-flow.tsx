@@ -144,8 +144,20 @@ export function ImpactReportFlow({ recipeId }: ImpactReportFlowProps) {
 
   if (status === "error" || !recipe || !report) {
     return (
-      <div className="card-surface bg-white p-8">
-        <p className="text-lg text-red-700">{error ?? "Unable to load the impact report."}</p>
+      <div className="card-surface bg-white p-8 md:p-10">
+        <p className="text-sm font-semibold uppercase tracking-[0.08em] text-red-700">
+          Impact Report
+        </p>
+        <h2 className="mt-3 font-[family-name:var(--font-display)] text-3xl font-bold leading-tight text-[var(--bg-navy)]">
+          We couldn&apos;t build the environmental estimate yet.
+        </h2>
+        <p className="mt-4 text-lg leading-8 text-[var(--text-soft)]">
+          {error ?? "Unable to load the impact report."}
+        </p>
+        <p className="mt-4 text-sm leading-7 text-[var(--text-soft)]">
+          This usually means the nearby store step hasn&apos;t been completed yet or the
+          emissions service is temporarily unavailable.
+        </p>
         <div className="mt-6 flex flex-wrap gap-3">
           <Link
             href={`/recipes/${toRecipePathSegment(recipeId)}/stores`}

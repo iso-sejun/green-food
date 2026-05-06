@@ -118,8 +118,22 @@ export function GoogleMap({
 
   if (error) {
     return (
-      <div className="card-surface flex min-h-[420px] items-center justify-center bg-white p-8 text-center text-[var(--text-soft)]">
-        {error}
+      <div className="card-surface flex min-h-[420px] items-center justify-center bg-white p-8">
+        <div className="max-w-xl text-center">
+          <p className="text-sm font-semibold uppercase tracking-[0.08em] text-[var(--text-soft)]">
+            Map Unavailable
+          </p>
+          <p className="mt-3 font-[family-name:var(--font-display)] text-3xl font-bold leading-tight text-[var(--bg-navy)]">
+            We couldn&apos;t load the interactive map right now.
+          </p>
+          <p className="mt-4 text-lg leading-8 text-[var(--text-soft)]">
+            {error}
+          </p>
+          <p className="mt-4 text-sm leading-7 text-[var(--text-soft)]">
+            The store list below should still work, so you can continue the flow even
+            if the map service is temporarily unavailable.
+          </p>
+        </div>
       </div>
     );
   }

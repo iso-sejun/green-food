@@ -134,14 +134,34 @@ export function StoreMapFlow({
 
   if (status === "error" || !recipe || !coordinates) {
     return (
-      <div className="card-surface bg-white p-8">
-        <p className="text-lg text-red-700">{error ?? "Unable to load the map step."}</p>
-        <Link
-          href={`/location?recipeId=${toRecipeLocationQuery(recipeId)}`}
-          className="cta cta-primary mt-6"
-        >
-          Update location
-        </Link>
+      <div className="card-surface bg-white p-8 md:p-10">
+        <p className="text-sm font-semibold uppercase tracking-[0.08em] text-red-700">
+          Nearby Store Step
+        </p>
+        <h2 className="mt-3 font-[family-name:var(--font-display)] text-3xl font-bold leading-tight text-[var(--bg-navy)]">
+          We couldn&apos;t finish the nearby store search.
+        </h2>
+        <p className="mt-4 text-lg leading-8 text-[var(--text-soft)]">
+          {error ?? "Unable to load the map step."}
+        </p>
+        <p className="mt-4 text-sm leading-7 text-[var(--text-soft)]">
+          The most common causes are an unrecognized saved location, a temporary map
+          service issue, or an API quota limit.
+        </p>
+        <div className="mt-6 flex flex-wrap gap-3">
+          <Link
+            href={`/location?recipeId=${toRecipeLocationQuery(recipeId)}`}
+            className="cta cta-primary"
+          >
+            Update location
+          </Link>
+          <Link
+            href={`/recipes/${toRecipePathSegment(recipeId)}/ingredients`}
+            className="cta cta-secondary"
+          >
+            Return to checklist
+          </Link>
+        </div>
       </div>
     );
   }
@@ -164,32 +184,58 @@ export function StoreMapFlow({
             saved location. This is a recommendation layer, not confirmed inventory.
           </p>
           <div className="mt-6 grid gap-4">
-            {stores.map((store, index) => (
-              <article
-                key={`${store.name}-${store.address}`}
-                className="rounded-[1.25rem] border border-slate-200 bg-[var(--bg-cream)] p-5"
-              >
-                <p className="text-sm font-semibold uppercase tracking-[0.08em] text-[var(--text-soft)]">
-                  Stop {index + 1}
+            {stores.length ? (
+              stores.map((store, index) => (
+                <article
+                  key={`${store.name}-${store.address}`}
+                  className="rounded-[1.25rem] border border-slate-200 bg-[var(--bg-cream)] p-5"
+                >
+                  <div className="flex flex-wrap items-start justify-between gap-3">
+                    <div>
+                      <p className="text-sm font-semibold uppercase tracking-[0.08em] text-[var(--text-soft)]">
+                        Stop {index + 1}
+                      </p>
+                      <h3 className="mt-2 font-[family-name:var(--font-display)] text-2xl font-bold text-[var(--bg-navy)]">
+                        {store.name}
+                      </h3>
+                    </div>
+                    {store.confidenceTier ? (
+                      <span className="pill">
+                        {store.confidenceTier} confidence
+                      </span>
+                    ) : null}
+                  </div>
+                  <p className="mt-2 text-base leading-7 text-[var(--text-soft)]">
+                    {store.address}
+                  </p>
+                  {store.matchReason ? (
+                    <p className="mt-2 text-sm leading-6 text-[var(--text-soft)]">
+                      Filter reason: {store.matchReason}.
+                    </p>
+                  ) : null}
+                  {store.googleMapsUri ? (
+                    <a
+                      href={store.googleMapsUri}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="cta cta-secondary mt-4"
+                    >
+                      Open in Google Maps
+                    </a>
+                  ) : null}
+                </article>
+              ))
+            ) : (
+              <div className="rounded-[1.25rem] border border-dashed border-slate-300 bg-[var(--bg-cream)] p-6">
+                <p className="font-[family-name:var(--font-display)] text-2xl font-bold text-[var(--bg-navy)]">
+                  No strong grocery matches found yet.
                 </p>
-                <h3 className="mt-2 font-[family-name:var(--font-display)] text-2xl font-bold text-[var(--bg-navy)]">
-                  {store.name}
-                </h3>
-                <p className="mt-2 text-base leading-7 text-[var(--text-soft)]">
-                  {store.address}
+                <p className="mt-3 text-base leading-7 text-[var(--text-soft)]">
+                  Try broadening the saved location to a nearby town or neighborhood,
+                  then run the store search again.
                 </p>
-                {store.googleMapsUri ? (
-                  <a
-                    href={store.googleMapsUri}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="cta cta-secondary mt-4"
-                  >
-                    Open in Google Maps
-                  </a>
-                ) : null}
-              </article>
-            ))}
+              </div>
+            )}
           </div>
         </div>
       </div>

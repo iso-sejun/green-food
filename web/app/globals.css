@@ -40,12 +40,19 @@ input {
   font: inherit;
 }
 
+input:focus-visible,
+button:focus-visible,
+a:focus-visible {
+  outline: 3px solid rgba(120, 220, 168, 0.85);
+  outline-offset: 3px;
+}
+
 .site-shell {
   min-height: 100vh;
 }
 
 .page-shell {
-  width: min(1200px, calc(100vw - 2rem));
+  width: min(1200px, calc(100vw - 1.25rem));
   margin: 0 auto;
 }
 
@@ -95,6 +102,16 @@ input {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   text-decoration: none;
+  transition:
+    transform 160ms ease,
+    box-shadow 160ms ease,
+    background-color 160ms ease,
+    color 160ms ease,
+    border-color 160ms ease;
+}
+
+.cta:hover {
+  transform: translateY(-1px);
 }
 
 .cta-primary {
@@ -134,5 +151,11 @@ input {
 @media (min-width: 768px) {
   .section {
     padding: 6rem 0;
+  }
+}
+
+@media (min-width: 640px) {
+  .page-shell {
+    width: min(1200px, calc(100vw - 2rem));
   }
 }
