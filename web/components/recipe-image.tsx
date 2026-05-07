@@ -9,6 +9,7 @@ type RecipeImageProps = {
   sizes: string;
   containerClassName: string;
   fallbackClassName?: string;
+  onLoadError?: () => void;
 };
 
 export function RecipeImage({
@@ -16,7 +17,8 @@ export function RecipeImage({
   alt,
   sizes,
   containerClassName,
-  fallbackClassName
+  fallbackClassName,
+  onLoadError
 }: RecipeImageProps) {
   const [hasError, setHasError] = useState(false);
 
@@ -33,7 +35,10 @@ export function RecipeImage({
           fill
           className="object-cover"
           sizes={sizes}
-          onError={() => setHasError(true)}
+          onError={() => {
+            setHasError(true);
+            onLoadError?.();
+          }}
         />
       ) : (
         <div
