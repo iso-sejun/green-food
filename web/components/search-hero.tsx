@@ -75,7 +75,7 @@ export function SearchHero({
               Discover recipes worth preserving and ingredients worth sourcing thoughtfully.
             </h1>
             <p className="mx-auto mt-4 max-w-3xl text-sm leading-7 text-[var(--text-soft)] md:text-base">
-              Green Table helps you search dishes, check what you already have,
+              Root & Recepie helps you search dishes, check what you already have,
               find nearby stores likely to carry the rest, and understand the
               environmental tradeoffs before you cook.
             </p>

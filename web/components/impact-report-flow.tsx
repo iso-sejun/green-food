@@ -123,7 +123,7 @@ export function ImpactReportFlow({ recipeId }: ImpactReportFlowProps) {
         };
 
         saveImpactReport(recipeId, nextReport);
-        window.dispatchEvent(new Event("green-table:saved-recipes-updated"));
+        window.dispatchEvent(new Event("root-and-recepie:saved-recipes-updated"));
         setReport(nextReport);
         setStatus("ready");
       } catch (loadError) {

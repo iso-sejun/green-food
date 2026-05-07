@@ -57,7 +57,7 @@ export function LocationFlow({ recipeId }: LocationFlowProps) {
     };
 
     setSavedLocation(nextLocation);
-    window.dispatchEvent(new Event("green-table:location-updated"));
+    window.dispatchEvent(new Event("root-and-recepie:location-updated"));
     setSavedLocationState(nextLocation);
     setIsEditing(false);
     proceed();
@@ -65,7 +65,7 @@ export function LocationFlow({ recipeId }: LocationFlowProps) {
 
   function onClear() {
     clearSavedLocation();
-    window.dispatchEvent(new Event("green-table:location-updated"));
+    window.dispatchEvent(new Event("root-and-recepie:location-updated"));
     setSavedLocationState(null);
     setAddress("");
     setAddressLine2("");

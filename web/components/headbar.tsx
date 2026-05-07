@@ -16,7 +16,7 @@ export function Headbar() {
             href="/"
             className="font-[family-name:var(--font-display)] text-2xl font-bold tracking-tight text-[var(--bg-navy)]"
           >
-            Green Table
+            Root & Recepie
           </Link>
           <LocationBadge />
         </div>

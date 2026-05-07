@@ -102,7 +102,7 @@ export function StoreMapFlow({
           stores: storeResponse.stores,
           missingIngredients: remaining
         });
-        window.dispatchEvent(new Event("green-table:saved-recipes-updated"));
+        window.dispatchEvent(new Event("root-and-recepie:saved-recipes-updated"));
       } catch (loadError) {
         if (!cancelled) {
           setStatus("error");

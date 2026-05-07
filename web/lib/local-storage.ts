@@ -3,11 +3,11 @@
 import { RecipeIngredient, Recipe } from "./types";
 
 const KEYS = {
-  checklist: "green-table:ingredient-checklists",
-  location: "green-table:location",
-  savedRecipes: "green-table:saved-recipes",
-  storeResults: "green-table:store-results",
-  impactReports: "green-table:impact-reports"
+  checklist: "root-and-recepie:ingredient-checklists",
+  location: "root-and-recepie:location",
+  savedRecipes: "root-and-recepie:saved-recipes",
+  storeResults: "root-and-recepie:store-results",
+  impactReports: "root-and-recepie:impact-reports"
 };
 
 type ChecklistState = Record<string, string[]>;

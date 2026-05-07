@@ -16,7 +16,7 @@ const body = Source_Sans_3({
 });
 
 export const metadata: Metadata = {
-  title: "Green Table",
+  title: "Root & Recepie",
   description: "Find recipes, source ingredients nearby, and cook with climate awareness."
 };
 
@@ -36,4 +36,3 @@ export default function RootLayout({
     </html>
   );
 }
-

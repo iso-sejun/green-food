@@ -26,17 +26,17 @@ export function SavedRecipesBrowser() {
 
     sync();
     window.addEventListener("storage", sync);
-    window.addEventListener("green-table:saved-recipes-updated", sync);
+    window.addEventListener("root-and-recepie:saved-recipes-updated", sync);
 
     return () => {
       window.removeEventListener("storage", sync);
-      window.removeEventListener("green-table:saved-recipes-updated", sync);
+      window.removeEventListener("root-and-recepie:saved-recipes-updated", sync);
     };
   }, []);
 
   function onRemove(recipeId: string) {
     removeSavedRecipe(recipeId);
-    window.dispatchEvent(new Event("green-table:saved-recipes-updated"));
+    window.dispatchEvent(new Event("root-and-recepie:saved-recipes-updated"));
     setRecipes(getSavedRecipes());
   }
 
@@ -55,7 +55,7 @@ export function SavedRecipesBrowser() {
       }
 
       saveRecipeSummary(freshRecipe);
-      window.dispatchEvent(new Event("green-table:saved-recipes-updated"));
+      window.dispatchEvent(new Event("root-and-recepie:saved-recipes-updated"));
       setRecipes(getSavedRecipes());
     } catch {
       // Keep the fallback visible if a refresh fails.

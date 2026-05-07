@@ -17,7 +17,7 @@ export function createApp() {
   app.get("/health", (_request, response) => {
     response.json({
       ok: true,
-      service: "green-table-api"
+      service: "root-and-recepie-api"
     });
   });
 
@@ -25,4 +25,3 @@ export function createApp() {
 
   return app;
 }
-

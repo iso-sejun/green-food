@@ -13,11 +13,11 @@ export function LocationBadge() {
 
     syncLocation();
     window.addEventListener("storage", syncLocation);
-    window.addEventListener("green-table:location-updated", syncLocation);
+    window.addEventListener("root-and-recepie:location-updated", syncLocation);
 
     return () => {
       window.removeEventListener("storage", syncLocation);
-      window.removeEventListener("green-table:location-updated", syncLocation);
+      window.removeEventListener("root-and-recepie:location-updated", syncLocation);
     };
   }, []);
 
@@ -32,4 +32,3 @@ export function LocationBadge() {
     </div>
   );
 }
-

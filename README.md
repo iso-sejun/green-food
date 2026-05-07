@@ -1,6 +1,6 @@
-# Green Table
+# Root & Recepie
 
-Green Table is a hackathon web app for cooks who want to make meaningful food traditions without ignoring environmental impact. The app helps users search for recipes, check off ingredients they already have, find nearby stores likely to carry what is missing, and review a hybrid environmental estimate before they cook.
+Root & Recepie is a web app for cooks who want to make meaningful food traditions without ignoring environmental impact. The app helps users search for recipes, check off ingredients they already have, find nearby stores likely to carry what is missing, and review a hybrid environmental estimate before they cook.
 
 ## Live App
 
@@ -17,12 +17,12 @@ Green Table is a hackathon web app for cooks who want to make meaningful food tr
 6. Estimate the environmental impact using:
    - Edamam's recipe carbon class when available
    - Climatiq's trip emissions estimate for the shopping run
-7. Blend those two signals into a custom Green Table overall impact score.
+7. Blend those two signals into a custom Root & Recepie overall impact score.
 8. Save recipes locally so users can jump back to the map and impact steps.
 
 ## Custom Impact Score
 
-Green Table does not just show third-party API outputs separately. It also creates its own app-level **overall impact score** that blends:
+Root & Recepie does not just show third-party API outputs separately. It also creates its own app-level **overall impact score** that blends:
 
 - **70% recipe impact** from Edamam's `co2EmissionsClass`
 - **30% shopping-trip impact** from the Climatiq-based trip estimate
@@ -39,7 +39,7 @@ Green Table does not just show third-party API outputs separately. It also creat
    - `F = 22`
    - `G = 8`
 2. The shopping-trip emissions estimate in kilograms of CO2e is also converted into a 0-100 score.
-3. Green Table blends them with a `70/30` weighting.
+3. Root & Recepie blends them with a `70/30` weighting.
 4. The result is labeled as:
    - `Low overall impact`
    - `Lower overall impact`
@@ -161,7 +161,7 @@ Food is more than fuel. It carries memory, heritage, ritual, and family identity
 
 ### Potential impact
 
-Green Table can help users make recipes they care about while better understanding tradeoffs around shopping and environmental impact. Even in MVP form, the project encourages climate-aware cooking without shaming people for cultural dishes or making them navigate several disconnected tools on their own.
+Root & Recepie can help users make recipes they care about while better understanding tradeoffs around shopping and environmental impact. Even in MVP form, the project encourages climate-aware cooking without shaming people for cultural dishes or making them navigate several disconnected tools on their own.
 
 ### What new technology we learned and why we chose it
 
@@ -192,7 +192,7 @@ This kept API keys off the client, gave us one place to normalize vendor respons
 - **Store recommendations, not inventory guarantees**  
   Google Places can help find grocery-oriented stores nearby, but it cannot prove exact ingredient inventory. We explicitly shaped the UX around "likely to carry" rather than pretending to know more than the API does.
 - **App-owned environmental score, not a raw API dump**  
-  We decided to create a blended Green Table score rather than show Edamam and Climatiq as disconnected numbers. That made the result easier for users to compare, but it also required us to be explicit that the score is a weighted estimate built by our app.
+  We decided to create a blended Root & Recepie score rather than show Edamam and Climatiq as disconnected numbers. That made the result easier for users to compare, but it also required us to be explicit that the score is a weighted estimate built by our app.
 
 ### Most difficult technical bug and how we debugged it
 
@@ -209,7 +209,7 @@ That produced 404 errors in the middle of the recipe flow. We debugged it by com
 - Edamam does not provide a native 1-to-5 user rating in the recipe search flow we used.
 - Google Maps does not expose store inventory, so the app recommends nearby grocery-oriented places rather than exact stock.
 - Edamam's recipe carbon class is a built-in per-serving rating, but Edamam does not publicly document the full internal methodology behind the grade cutoffs.
-- The Green Table overall impact score is an app-level blend of Edamam's recipe carbon class and Climatiq's trip estimate, not a claim of exact total environmental truth.
+- The Root & Recepie overall impact score is an app-level blend of Edamam's recipe carbon class and Climatiq's trip estimate, not a claim of exact total environmental truth.
 - Nearby store quality was improved using stricter place-type filtering, tiered fallback, backend scoring, chain-priority boosts, and app-side exclusions for weak matches like convenience/vape/boba-style results.
 
 ## AI Usage
@@ -232,4 +232,4 @@ We also verified the fix against the actual failing deployed and local URLs rath
 
 ## Final Notes
 
-Green Table is intentionally an honest MVP. It combines multiple APIs into one cohesive flow, prioritizes clear tradeoffs over fake precision, and aims to show that environmental awareness and meaningful food traditions can coexist.
+Root & Recepie is intentionally an honest MVP. It combines multiple APIs into one cohesive flow, prioritizes clear tradeoffs over fake precision, and aims to show that environmental awareness and meaningful food traditions can coexist.
