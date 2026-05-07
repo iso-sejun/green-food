@@ -217,16 +217,38 @@ export function ImpactReportFlow({ recipeId }: ImpactReportFlowProps) {
 
       <aside className="space-y-6">
         <div className="card-surface bg-white p-8 md:p-10">
-          <span className="eyebrow">Method Notes</span>
+          <span className="eyebrow">Carbon Class Guide</span>
           <h3 className="font-[family-name:var(--font-display)] text-3xl font-bold leading-tight text-[var(--bg-navy)]">
-            Honest estimate, not false precision.
+            What Edamam&apos;s recipe carbon class means.
           </h3>
-          <ul className="mt-6 space-y-3 text-base leading-7 text-[var(--text-soft)]">
-            <li>The recipe carbon class comes directly from Edamam when available.</li>
-            <li>The trip estimate is based on the nearest suggested store, not all possible shopping behavior.</li>
-            <li>The distance is straight-line haversine distance doubled for a round trip, not turn-by-turn road routing.</li>
-            <li>The Climatiq factor currently used is a generic passenger car estimate, which keeps the result real but approximate.</li>
-          </ul>
+          <p className="mt-4 text-lg leading-8 text-[var(--text-soft)]">
+            Edamam assigns a built-in recipe carbon footprint class based on estimated
+            CO2e emissions per serving. It works like a report-card scale:
+          </p>
+          <div className="mt-6 grid gap-3 sm:grid-cols-2">
+            {[
+              "A+ = lowest emissions per serving",
+              "A = very low emissions",
+              "B = low emissions",
+              "C = moderate emissions",
+              "D = moderately high emissions",
+              "E = high emissions",
+              "F = very high emissions",
+              "G = highest emissions per serving"
+            ].map((item) => (
+              <div
+                key={item}
+                className="rounded-[1.15rem] border border-slate-200 bg-[var(--bg-cream)] px-4 py-3 text-sm font-semibold leading-6 text-[var(--bg-navy)]"
+              >
+                {item}
+              </div>
+            ))}
+          </div>
+          <p className="mt-6 text-base leading-7 text-[var(--text-soft)]">
+            In other words, a recipe rated closer to <strong>A+</strong> is relatively
+            lower-impact per serving, while a recipe rated <strong>G</strong> is
+            relatively higher-impact per serving.
+          </p>
         </div>
 
         <div className="card-surface bg-[var(--bg-mint)] p-8 text-[var(--bg-navy)] md:p-10">
