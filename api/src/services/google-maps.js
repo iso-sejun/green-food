@@ -18,15 +18,38 @@ const STORE_SEARCH_TIERS = [
 ];
 
 const EXCLUDED_PRIMARY_TYPES = [
+  "convenience_store",
   "bakery",
   "cafe",
+  "coffee_shop",
+  "bubble_tea_shop",
+  "ice_cream_shop",
+  "juice_shop",
+  "smoothie_shop",
+  "candy_store",
+  "chocolate_shop",
+  "donut_shop",
+  "deli",
   "restaurant",
+  "fast_food_restaurant",
   "meal_takeaway",
   "meal_delivery",
+  "food_truck",
   "bar",
+  "pub",
   "liquor_store",
+  "brewery",
+  "winery",
   "dessert_shop",
-  "vape_store"
+  "vape_store",
+  "smoke_shop",
+  "tobacco_shop",
+  "cigar_shop",
+  "hookah_bar",
+  "gift_shop",
+  "newsstand",
+  "pharmacy",
+  "drugstore"
 ];
 
 const STRICT_ALLOWED_PRIMARY_TYPES = new Set(STORE_SEARCH_TIERS[0]);
@@ -79,14 +102,74 @@ const NAME_SCORE_PENALTIES = [
   { match: "sunoco", penalty: 16, reason: "Gas-station convenience signal Sunoco" }
 ];
 const HARD_EXCLUDE_NAME_KEYWORDS = [
+  "7 eleven",
+  "711",
+  "circle k",
+  "cumberland farms",
+  "speedway",
+  "quickchek",
+  "mini mart",
+  "corner store",
+  "convenience",
   "vape",
   "smoke shop",
   "smokeshop",
   "tobacco",
   "cigar",
-  "hookah"
+  "hookah",
+  "boba",
+  "bubble tea",
+  "milk tea",
+  "bakery",
+  "cafe",
+  "coffee",
+  "dessert",
+  "ice cream",
+  "gelato",
+  "smoothie",
+  "juice bar",
+  "candy",
+  "chocolate",
+  "donut",
+  "deli",
+  "liquor",
+  "wine shop",
+  "brewery",
+  "pub",
+  "tavern",
+  "restaurant",
+  "takeout",
+  "food truck",
+  "gift shop",
+  "newsstand",
+  "pharmacy",
+  "drugstore",
+  "dollar store"
 ];
-const HARD_EXCLUDE_TYPES = new Set(["vape_store", "tobacco_shop"]);
+const HARD_EXCLUDE_TYPES = new Set([
+  "convenience_store",
+  "vape_store",
+  "tobacco_shop",
+  "smoke_shop",
+  "cigar_shop",
+  "hookah_bar",
+  "bubble_tea_shop",
+  "coffee_shop",
+  "bakery",
+  "cafe",
+  "dessert_shop",
+  "ice_cream_shop",
+  "juice_shop",
+  "smoothie_shop",
+  "deli",
+  "liquor_store",
+  "brewery",
+  "winery",
+  "gift_shop",
+  "newsstand",
+  "pharmacy",
+  "drugstore"
+]);
 const INTERNATIONAL_INGREDIENT_HINTS = [
   "soy",
   "miso",
@@ -174,14 +257,9 @@ function buildSearchTiers({ ingredientNames = [], ingredientCategories = [] } = 
 
 function isAllowedStorePlace(place) {
   const primaryType = place.primaryType ?? null;
-  const types = Array.isArray(place.types) ? place.types : [];
   const normalizedName = normalizeStoreName(place.displayName?.text ?? "");
 
   if (primaryType && EXCLUDED_TYPE_SET.has(primaryType)) {
-    return false;
-  }
-
-  if (types.some((type) => EXCLUDED_TYPE_SET.has(type))) {
     return false;
   }
 
@@ -189,19 +267,11 @@ function isAllowedStorePlace(place) {
     return false;
   }
 
-  if (types.some((type) => HARD_EXCLUDE_TYPES.has(type))) {
-    return false;
-  }
-
   if (HARD_EXCLUDE_NAME_KEYWORDS.some((keyword) => normalizedName.includes(keyword))) {
     return false;
   }
 
-  if (primaryType && RELAXED_ALLOWED_PRIMARY_TYPES.has(primaryType)) {
-    return true;
-  }
-
-  return types.some((type) => RELAXED_ALLOWED_PRIMARY_TYPES.has(type));
+  return Boolean(primaryType && RELAXED_ALLOWED_PRIMARY_TYPES.has(primaryType));
 }
 
 function scoreStorePlace(place, origin) {
