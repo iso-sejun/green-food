@@ -69,7 +69,7 @@ export function SearchHero({
   return (
     <section className="section">
       <div className="page-shell">
-        <div className="mx-auto flex max-w-5xl flex-col items-center justify-center px-2 py-8 text-center md:py-10">
+        <div className="mx-auto flex min-h-[220px] max-w-5xl flex-col items-center justify-center px-2 text-center md:min-h-[260px]">
           <h1 className="mx-auto max-w-4xl font-[family-name:var(--font-display)] text-xl font-bold leading-[1.08] tracking-[-0.03em] text-[var(--bg-navy)] md:text-2xl xl:text-[2.1rem]">
             Discover recipes worth preserving and ingredients worth sourcing thoughtfully.
           </h1>
@@ -82,7 +82,7 @@ export function SearchHero({
 
         <form
           onSubmit={onSubmit}
-          className="card-surface mx-auto mt-4 max-w-4xl overflow-hidden bg-[var(--bg-navy)] p-6 text-[var(--text-inverse)] shadow-[0_28px_70px_rgba(16,28,48,0.22)] md:p-8"
+          className="card-surface mx-auto mt-2 max-w-4xl overflow-hidden bg-[var(--bg-navy)] p-6 text-[var(--text-inverse)] shadow-[0_28px_70px_rgba(16,28,48,0.22)] md:p-8"
         >
           <div className="mb-6 flex flex-wrap justify-center gap-2">
             <span className="pill border-white/15 bg-white/10 text-white">
