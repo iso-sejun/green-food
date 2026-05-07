@@ -33,13 +33,10 @@ const EXCLUDED_PRIMARY_TYPES = [
   "fast_food_restaurant",
   "meal_takeaway",
   "meal_delivery",
-  "food_truck",
   "bar",
   "pub",
   "liquor_store",
   "dessert_shop",
-  "gift_shop",
-  "newsstand",
   "pharmacy",
   "drugstore"
 ];
