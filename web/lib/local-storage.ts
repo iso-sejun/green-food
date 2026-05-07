@@ -51,8 +51,13 @@ export type StoredStoreSearchResult = {
 export type StoredImpactReport = {
   recipeId: string;
   recipeCarbonClass: string | null;
+  recipeCarbonScore?: number | null;
   tripDistanceMiles: number;
   tripCarbonKg: number | null;
+  tripCarbonScore?: number | null;
+  overallImpactScore?: number | null;
+  overallImpactLabel?: string | null;
+  scoreWeighting?: string;
   factorName?: string;
   factorRegion?: string | null;
   estimatedStoreName?: string;

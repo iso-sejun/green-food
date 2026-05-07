@@ -4,6 +4,12 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { estimateTripImpact, fetchRecipeDetail } from "@/lib/api";
 import {
+  getOverallImpactLabel,
+  getOverallImpactScore,
+  getRecipeCarbonScore,
+  getTripEmissionScore
+} from "@/lib/impact-score";
+import {
   getImpactReport,
   getStoreResults,
   saveImpactReport,
@@ -93,11 +99,24 @@ export function ImpactReportFlow({ recipeId }: ImpactReportFlowProps) {
           return;
         }
 
+        const recipeCarbonScore = getRecipeCarbonScore(recipeDetail.co2EmissionsClass);
+        const tripCarbonScore = getTripEmissionScore(estimate.co2eKg);
+        const overallImpactScore = getOverallImpactScore(
+          recipeCarbonScore,
+          tripCarbonScore
+        );
+        const overallImpactLabel = getOverallImpactLabel(overallImpactScore);
+
         const nextReport: StoredImpactReport = {
           recipeId,
           recipeCarbonClass: recipeDetail.co2EmissionsClass,
+          recipeCarbonScore,
           tripDistanceMiles: roundTripMiles,
           tripCarbonKg: estimate.co2eKg,
+          tripCarbonScore,
+          overallImpactScore,
+          overallImpactLabel,
+          scoreWeighting: "70/30 recipe-trip",
           factorName: estimate.factorName,
           factorRegion: estimate.factorRegion,
           estimatedStoreName: nearestStore.name
@@ -182,6 +201,29 @@ export function ImpactReportFlow({ recipeId }: ImpactReportFlowProps) {
             This environmental view combines Edamam&apos;s recipe-level carbon class
             with a separate estimate for the shopping trip to your nearest suggested store.
           </p>
+          <div className="mt-8 rounded-[1.6rem] border border-[var(--line)] bg-[var(--bg-navy)] p-6 text-white">
+            <p className="text-sm font-semibold uppercase tracking-[0.08em] text-white/65">
+              Overall Impact Score
+            </p>
+            <div className="mt-4 flex flex-wrap items-end gap-4">
+              <p className="font-[family-name:var(--font-display)] text-6xl font-bold leading-none">
+                {report.overallImpactScore ?? "N/A"}
+              </p>
+              <p className="pb-1 text-xl font-semibold text-white/82">
+                {report.overallImpactLabel ?? "Unavailable"}
+              </p>
+            </div>
+            <p className="mt-4 max-w-2xl text-base leading-7 text-white/75">
+              This app-owned score blends Edamam&apos;s recipe carbon class and the
+              estimated shopping-trip emissions using a 70% recipe / 30% trip weighting.
+            </p>
+            {report.overallImpactScore === null ? (
+              <p className="mt-3 text-sm leading-6 text-white/68">
+                We need both a recipe carbon class and a trip estimate to calculate
+                the combined score.
+              </p>
+            ) : null}
+          </div>
           <div className="mt-8 grid gap-4 md:grid-cols-2">
             <div className="rounded-[1.5rem] bg-[var(--bg-cream)] p-6">
               <p className="text-sm font-semibold uppercase tracking-[0.08em] text-[var(--text-soft)]">
