@@ -130,14 +130,41 @@ CORS_ORIGIN=https://green-food-web.vercel.app
 
 ## Screenshots / Demo
 
-Add screenshots, GIFs, or a demo video here before submission. Suggested captures:
+### Demo Video
 
-- Homepage search
-- Recipe list
-- Ingredient checklist
-- Nearby stores map
-- Environmental impact page
-- Saved recipes page
+[Watch the demo on YouTube](https://youtu.be/VfJMw2h7dlI?si=UNtaVQ8-kL7YJlIG)
+
+### Homepage
+
+![Homepage](assets/homepage.png)
+
+### Search Results
+
+![Search Results](assets/search_page.png)
+
+### Recipe Detail
+
+![Recipe Detail](assets/recepie.png)
+
+### Set Location
+
+![Set Location](assets/set_location.png)
+
+### Ingredient Checklist
+
+![Ingredient Checklist](assets/ingredient_checklist.png)
+
+### Nearby Stores Map
+
+![Nearby Stores Map](assets/map_page.png)
+
+### Environmental Impact Page
+
+![Environmental Impact Page](assets/impact_page.png)
+
+### Saved Recipes
+
+![Saved Recipes](assets/saved_recepies.png)
 
 ## Learning Journey
 
