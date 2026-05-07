@@ -25,7 +25,8 @@ const EXCLUDED_PRIMARY_TYPES = [
   "meal_delivery",
   "bar",
   "liquor_store",
-  "dessert_shop"
+  "dessert_shop",
+  "vape_store"
 ];
 
 const STRICT_ALLOWED_PRIMARY_TYPES = new Set(STORE_SEARCH_TIERS[0]);
@@ -63,6 +64,29 @@ const CHAIN_SCORE_BONUSES = [
   { match: "ranch 99", bonus: 20, reason: "Matched specialty grocery chain 99 Ranch" },
   { match: "patel brothers", bonus: 20, reason: "Matched specialty grocery chain Patel Brothers" }
 ];
+const NAME_SCORE_PENALTIES = [
+  { match: "7 eleven", penalty: 25, reason: "Convenience-store chain signal 7-Eleven" },
+  { match: "711", penalty: 25, reason: "Convenience-store chain signal 7-Eleven" },
+  { match: "circle k", penalty: 25, reason: "Convenience-store chain signal Circle K" },
+  { match: "cumberland farms", penalty: 24, reason: "Convenience-store chain signal Cumberland Farms" },
+  { match: "speedway", penalty: 24, reason: "Convenience-store chain signal Speedway" },
+  { match: "quickchek", penalty: 24, reason: "Convenience-store chain signal QuickChek" },
+  { match: "mini mart", penalty: 22, reason: "Convenience-store naming signal Mini Mart" },
+  { match: "convenience", penalty: 20, reason: "Convenience-store naming signal" },
+  { match: "shell", penalty: 16, reason: "Gas-station convenience signal Shell" },
+  { match: "exxon", penalty: 16, reason: "Gas-station convenience signal Exxon" },
+  { match: "bp", penalty: 16, reason: "Gas-station convenience signal BP" },
+  { match: "sunoco", penalty: 16, reason: "Gas-station convenience signal Sunoco" }
+];
+const HARD_EXCLUDE_NAME_KEYWORDS = [
+  "vape",
+  "smoke shop",
+  "smokeshop",
+  "tobacco",
+  "cigar",
+  "hookah"
+];
+const HARD_EXCLUDE_TYPES = new Set(["vape_store", "tobacco_shop"]);
 const INTERNATIONAL_INGREDIENT_HINTS = [
   "soy",
   "miso",
@@ -151,12 +175,25 @@ function buildSearchTiers({ ingredientNames = [], ingredientCategories = [] } = 
 function isAllowedStorePlace(place) {
   const primaryType = place.primaryType ?? null;
   const types = Array.isArray(place.types) ? place.types : [];
+  const normalizedName = normalizeStoreName(place.displayName?.text ?? "");
 
   if (primaryType && EXCLUDED_TYPE_SET.has(primaryType)) {
     return false;
   }
 
   if (types.some((type) => EXCLUDED_TYPE_SET.has(type))) {
+    return false;
+  }
+
+  if (primaryType && HARD_EXCLUDE_TYPES.has(primaryType)) {
+    return false;
+  }
+
+  if (types.some((type) => HARD_EXCLUDE_TYPES.has(type))) {
+    return false;
+  }
+
+  if (HARD_EXCLUDE_NAME_KEYWORDS.some((keyword) => normalizedName.includes(keyword))) {
     return false;
   }
 
@@ -188,9 +225,18 @@ function scoreStorePlace(place, origin) {
   }
 
   const chainMatch = CHAIN_SCORE_BONUSES.find(({ match }) => normalizedName.includes(match));
+  const penaltyMatch = NAME_SCORE_PENALTIES.find(({ match }) => normalizedName.includes(match));
 
   if (chainMatch) {
     score += chainMatch.bonus;
+  }
+
+  if (primaryType === "convenience_store" || types.includes("convenience_store")) {
+    score -= 25;
+  }
+
+  if (penaltyMatch) {
+    score -= penaltyMatch.penalty;
   }
 
   const confidenceTier = STRICT_ALLOWED_PRIMARY_TYPES.has(primaryType)
@@ -211,6 +257,8 @@ function scoreStorePlace(place, origin) {
     confidenceTier,
     matchReason: chainMatch
       ? chainMatch.reason
+      : penaltyMatch
+        ? penaltyMatch.reason
       : primaryType
         ? `Primary type ${primaryType}`
         : types.length
