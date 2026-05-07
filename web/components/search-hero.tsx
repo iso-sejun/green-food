@@ -68,13 +68,13 @@ export function SearchHero({
 
   return (
     <section className="section">
-      <div className="page-shell grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-end">
-        <div>
+      <div className="page-shell">
+        <div className="mx-auto max-w-5xl text-center">
           <span className="eyebrow">Cook Heritage, Lighten Impact</span>
-          <h1 className="max-w-4xl font-[family-name:var(--font-display)] text-5xl font-bold leading-[0.95] tracking-[-0.04em] text-[var(--bg-navy)] md:text-7xl xl:text-[5.4rem]">
+          <h1 className="mx-auto mt-3 max-w-4xl font-[family-name:var(--font-display)] text-3xl font-bold leading-[1.02] tracking-[-0.03em] text-[var(--bg-navy)] md:text-4xl xl:text-[3.35rem]">
             Discover recipes worth preserving and ingredients worth sourcing thoughtfully.
           </h1>
-          <p className="mt-6 max-w-2xl text-lg leading-8 text-[var(--text-soft)] md:text-xl">
+          <p className="mx-auto mt-5 max-w-3xl text-lg leading-8 text-[var(--text-soft)] md:text-xl">
             Green Table helps you search dishes, check what you already have,
             find nearby stores likely to carry the rest, and understand the
             environmental tradeoffs before you cook.
@@ -83,9 +83,9 @@ export function SearchHero({
 
         <form
           onSubmit={onSubmit}
-          className="card-surface overflow-hidden bg-[var(--bg-navy)] p-6 text-[var(--text-inverse)] md:p-8"
+          className="card-surface mx-auto mt-10 max-w-4xl overflow-hidden bg-[var(--bg-navy)] p-6 text-[var(--text-inverse)] shadow-[0_28px_70px_rgba(16,28,48,0.22)] md:p-8"
         >
-          <div className="mb-6 flex flex-wrap gap-2">
+          <div className="mb-6 flex flex-wrap justify-center gap-2">
             <span className="pill border-white/15 bg-white/10 text-white">
               Edamam recipes
             </span>
@@ -98,7 +98,7 @@ export function SearchHero({
           </div>
           <label
             htmlFor="recipe-query-hero"
-            className="mb-3 block font-[family-name:var(--font-display)] text-2xl font-bold"
+            className="mb-3 block text-center font-[family-name:var(--font-display)] text-3xl font-bold md:text-4xl"
           >
             Search for a recipe
           </label>
@@ -108,15 +108,15 @@ export function SearchHero({
               value={query}
               onChange={(event) => setQuery(event.target.value)}
               placeholder="Try jollof rice, ramen, pozole, or all recipes"
-              className="w-full border-0 bg-transparent px-3 py-4 text-lg outline-none placeholder:text-slate-400"
+              className="w-full border-0 bg-transparent px-3 py-5 text-xl outline-none placeholder:text-slate-400 md:text-2xl"
             />
-            <div className="flex flex-wrap items-center justify-between gap-3 border-t border-slate-200 px-3 pt-3">
-              <p className="max-w-xs text-sm text-slate-500">
+            <div className="flex flex-wrap items-center justify-between gap-4 border-t border-slate-200 px-3 pt-4">
+              <p className="max-w-xl text-sm leading-6 text-slate-500">
                 If you leave this blank, the recipe page will show everything we have fetched.
               </p>
               <button
                 type="submit"
-                className="cta cta-accent transition hover:translate-y-[-1px]"
+                className="cta cta-accent min-w-[220px] transition hover:translate-y-[-1px]"
               >
                 Search recipes
               </button>
