@@ -62,7 +62,7 @@ export function HomeSections() {
       </section>
 
       <section className="section">
-        <div className="page-shell grid gap-8 lg:grid-cols-[1fr_0.95fr]">
+        <div className="page-shell">
           <div className="card-surface bg-white p-8 md:p-10">
             <span className="eyebrow">Workflow</span>
             <h2 className="font-[family-name:var(--font-display)] text-4xl font-bold leading-tight tracking-[-0.03em] md:text-5xl">
@@ -82,22 +82,8 @@ export function HomeSections() {
               ))}
             </div>
           </div>
-
-          <aside className="card-surface bg-[var(--bg-mint)] p-8 text-[var(--bg-navy)] md:p-10">
-            <span className="eyebrow">MVP Reality Check</span>
-            <h3 className="font-[family-name:var(--font-display)] text-3xl font-bold leading-tight md:text-4xl">
-              We are intentionally building the honest version first.
-            </h3>
-            <ul className="mt-6 space-y-4 text-lg leading-8 text-[rgba(16,28,48,0.82)]">
-              <li>Recipes come from Edamam.</li>
-              <li>Stores are nearby recommendations, not inventory guarantees.</li>
-              <li>Environmental impact is a hybrid estimate, not an exact truth.</li>
-              <li>Saved progress lives in local storage for hackathon speed.</li>
-            </ul>
-          </aside>
         </div>
       </section>
     </>
   );
 }
-
