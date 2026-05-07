@@ -250,12 +250,13 @@ export function ImpactReportFlow({ recipeId }: ImpactReportFlowProps) {
             relatively higher-impact per serving.
           </p>
         </div>
-
         <div className="card-surface bg-[var(--bg-mint)] p-8 text-[var(--bg-navy)] md:p-10">
-          <span className="eyebrow">Source Details</span>
-          <p className="text-lg leading-8 text-[rgba(16,28,48,0.82)]">
-            Climatiq factor used: <strong>{report.factorName ?? "Generic car"}</strong>
-            {report.factorRegion ? ` (${report.factorRegion})` : ""}.
+          <h3 className="font-[family-name:var(--font-display)] text-3xl font-bold leading-tight">
+            Keep exploring this recipe.
+          </h3>
+          <p className="mt-4 text-lg leading-8 text-[rgba(16,28,48,0.82)]">
+            You can jump back to the nearby store recommendations or return to your
+            saved recipes to compare another dish.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Link
