@@ -69,7 +69,7 @@ export function SearchHero({
   return (
     <section className="section">
       <div className="page-shell">
-        <div className="mx-auto max-w-5xl text-center">
+        <div className="mx-auto max-w-5xl px-2 py-8 text-center md:py-12">
           <h1 className="mx-auto max-w-4xl font-[family-name:var(--font-display)] text-2xl font-bold leading-[1.04] tracking-[-0.03em] text-[var(--bg-navy)] md:text-3xl xl:text-[2.75rem]">
             Discover recipes worth preserving and ingredients worth sourcing thoughtfully.
           </h1>
