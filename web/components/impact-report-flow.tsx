@@ -286,11 +286,6 @@ export function ImpactReportFlow({ recipeId }: ImpactReportFlowProps) {
               </div>
             ))}
           </div>
-          <p className="mt-6 text-base leading-7 text-[var(--text-soft)]">
-            In other words, a recipe rated closer to <strong>A+</strong> is relatively
-            lower-impact per serving, while a recipe rated <strong>G</strong> is
-            relatively higher-impact per serving.
-          </p>
         </div>
         <div className="card-surface bg-[var(--bg-mint)] p-8 text-[var(--bg-navy)] md:p-10">
           <h3 className="font-[family-name:var(--font-display)] text-3xl font-bold leading-tight">
