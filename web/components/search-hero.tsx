@@ -70,11 +70,10 @@ export function SearchHero({
     <section className="section">
       <div className="page-shell">
         <div className="mx-auto max-w-5xl text-center">
-          <span className="eyebrow">Cook Heritage, Lighten Impact</span>
-          <h1 className="mx-auto mt-3 max-w-4xl font-[family-name:var(--font-display)] text-3xl font-bold leading-[1.02] tracking-[-0.03em] text-[var(--bg-navy)] md:text-4xl xl:text-[3.35rem]">
+          <h1 className="mx-auto max-w-4xl font-[family-name:var(--font-display)] text-2xl font-bold leading-[1.04] tracking-[-0.03em] text-[var(--bg-navy)] md:text-3xl xl:text-[2.75rem]">
             Discover recipes worth preserving and ingredients worth sourcing thoughtfully.
           </h1>
-          <p className="mx-auto mt-5 max-w-3xl text-lg leading-8 text-[var(--text-soft)] md:text-xl">
+          <p className="mx-auto mt-4 max-w-3xl text-base leading-7 text-[var(--text-soft)] md:text-lg">
             Green Table helps you search dishes, check what you already have,
             find nearby stores likely to carry the rest, and understand the
             environmental tradeoffs before you cook.
@@ -83,7 +82,7 @@ export function SearchHero({
 
         <form
           onSubmit={onSubmit}
-          className="card-surface mx-auto mt-10 max-w-4xl overflow-hidden bg-[var(--bg-navy)] p-6 text-[var(--text-inverse)] shadow-[0_28px_70px_rgba(16,28,48,0.22)] md:p-8"
+          className="card-surface mx-auto mt-8 max-w-4xl overflow-hidden bg-[var(--bg-navy)] p-6 text-[var(--text-inverse)] shadow-[0_28px_70px_rgba(16,28,48,0.22)] md:p-8"
         >
           <div className="mb-6 flex flex-wrap justify-center gap-2">
             <span className="pill border-white/15 bg-white/10 text-white">
