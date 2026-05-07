@@ -1,6 +1,6 @@
 # Root & Recepie
 
-Root & Recepie is a web app for cooks who want to make meaningful food traditions without ignoring environmental impact. The app helps users search for recipes, check off ingredients they already have, find nearby stores likely to carry what is missing, and review a hybrid environmental estimate before they cook.
+Root & Recepie is a web app for cheefs who want to make good food and do good for the environment! The website lets users search for recipes, check off ingredients they already have, find nearby stores likely to carry what is missing, and review a hybrid environmental estimate before cooking.
 
 ## Live App
 
@@ -47,33 +47,19 @@ Root & Recepie does not just show third-party API outputs separately. It also cr
    - `Higher overall impact`
    - `High overall impact`
 
-This score is intentionally presented as a **decision aid**, not as an exact scientific lifecycle truth.
-
 ## Stack
 
-### Frontend
+Frontend: Next.js, React, Tailwind CSS
 
-- Next.js
-- React
-- Tailwind CSS
+Backend: Express.js
 
-### Backend
-
-- Express.js
-
-### APIs
-
-- Edamam Recipe Search API
-- Google Maps Geocoding API
-- Google Places API
-- Google Maps JavaScript API
-- Climatiq API
+APIs: Edamam Recipe Search API, Google Maps Geocoding API, Google Places API, Google Maps JavaScript API, Climatiq API
 
 ## Project Structure
 
 ```text
 .
-├── api/   # Express backend for API orchestration
+├── api/   # Express backend
 ├── web/   # Next.js frontend
 └── README.md
 ```
