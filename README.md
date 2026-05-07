@@ -17,7 +17,37 @@ Green Table is a hackathon web app for cooks who want to make meaningful food tr
 6. Estimate the environmental impact using:
    - Edamam's recipe carbon class when available
    - Climatiq's trip emissions estimate for the shopping run
-7. Save recipes locally so users can jump back to the map and impact steps.
+7. Blend those two signals into a custom Green Table overall impact score.
+8. Save recipes locally so users can jump back to the map and impact steps.
+
+## Custom Impact Score
+
+Green Table does not just show third-party API outputs separately. It also creates its own app-level **overall impact score** that blends:
+
+- **70% recipe impact** from Edamam's `co2EmissionsClass`
+- **30% shopping-trip impact** from the Climatiq-based trip estimate
+
+### How it works
+
+1. Edamam's carbon class is mapped to a numeric score:
+   - `A+ = 100`
+   - `A = 92`
+   - `B = 82`
+   - `C = 70`
+   - `D = 55`
+   - `E = 40`
+   - `F = 22`
+   - `G = 8`
+2. The shopping-trip emissions estimate in kilograms of CO2e is also converted into a 0-100 score.
+3. Green Table blends them with a `70/30` weighting.
+4. The result is labeled as:
+   - `Low overall impact`
+   - `Lower overall impact`
+   - `Moderate overall impact`
+   - `Higher overall impact`
+   - `High overall impact`
+
+This score is intentionally presented as a **decision aid**, not as an exact scientific lifecycle truth.
 
 ## Stack
 
@@ -161,6 +191,8 @@ This kept API keys off the client, gave us one place to normalize vendor respons
   Edamam's terms do not generally allow broad recipe caching, so instead of storing recipe payloads in a database we implemented short-lived in-memory request deduplication and session reuse.
 - **Store recommendations, not inventory guarantees**  
   Google Places can help find grocery-oriented stores nearby, but it cannot prove exact ingredient inventory. We explicitly shaped the UX around "likely to carry" rather than pretending to know more than the API does.
+- **App-owned environmental score, not a raw API dump**  
+  We decided to create a blended Green Table score rather than show Edamam and Climatiq as disconnected numbers. That made the result easier for users to compare, but it also required us to be explicit that the score is a weighted estimate built by our app.
 
 ### Most difficult technical bug and how we debugged it
 
@@ -176,8 +208,9 @@ That produced 404 errors in the middle of the recipe flow. We debugged it by com
 
 - Edamam does not provide a native 1-to-5 user rating in the recipe search flow we used.
 - Google Maps does not expose store inventory, so the app recommends nearby grocery-oriented places rather than exact stock.
-- The impact score is intentionally a hybrid estimate, not a claim of exact total environmental truth.
-- Nearby store quality was improved using stricter place-type filtering, tiered fallback, and backend scoring.
+- Edamam's recipe carbon class is a built-in per-serving rating, but Edamam does not publicly document the full internal methodology behind the grade cutoffs.
+- The Green Table overall impact score is an app-level blend of Edamam's recipe carbon class and Climatiq's trip estimate, not a claim of exact total environmental truth.
+- Nearby store quality was improved using stricter place-type filtering, tiered fallback, backend scoring, chain-priority boosts, and app-side exclusions for weak matches like convenience/vape/boba-style results.
 
 ## AI Usage
 
