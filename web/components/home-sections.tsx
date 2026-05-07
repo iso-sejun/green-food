@@ -1,6 +1,6 @@
 const featureCards = [
   {
-    title: "Search with heritage in mind",
+    title: "Search with flavor in mind",
     body: "Start from a dish you care about, then use cuisine and diet labels to compare options without flattening cultural context.",
     tone: "bg-[var(--bg-lavender)]"
   },

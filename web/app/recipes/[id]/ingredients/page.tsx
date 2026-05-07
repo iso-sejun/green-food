@@ -49,17 +49,6 @@ export default async function IngredientChecklistPage({
               Continue to stores
             </Link>
           </div>
-
-          <div className="card-surface bg-white p-6 md:p-8">
-            <h3 className="font-[family-name:var(--font-display)] text-2xl font-bold text-[var(--bg-navy)]">
-              Checklist notes
-            </h3>
-            <ul className="mt-4 space-y-3 text-base leading-7 text-[var(--text-soft)]">
-              <li>Checked ingredients are stored in local storage for this browser.</li>
-              <li>Edamam may not return categories for every ingredient.</li>
-              <li>The next store step will recommend likely matches, not confirmed inventory.</li>
-            </ul>
-          </div>
         </aside>
       </div>
     </main>

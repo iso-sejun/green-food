@@ -189,11 +189,6 @@ export function LocationFlow({ recipeId }: LocationFlowProps) {
           Once your location is saved, we can move to the ingredient checklist and
           then the mapping step without asking for it again.
         </p>
-        <ul className="mt-8 space-y-3 text-base leading-7 text-white/78">
-          <li>Your location is stored locally in this browser for hackathon speed.</li>
-          <li>The headbar will show the saved location after you continue.</li>
-          <li>Google Maps geocoding and store discovery happen in the next step.</li>
-        </ul>
       </aside>
     </div>
   );
