@@ -23,8 +23,6 @@ const EXCLUDED_PRIMARY_TYPES = [
   "cafe",
   "coffee_shop",
   "ice_cream_shop",
-  "juice_shop",
-  "smoothie_shop",
   "candy_store",
   "chocolate_shop",
   "donut_shop",
