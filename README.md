@@ -22,30 +22,18 @@ Root & Recepie is a web app for cheefs who want to make good food and do good fo
 
 ## Custom Impact Score
 
-Root & Recepie does not just show third-party API outputs separately. It also creates its own app-level **overall impact score** that blends:
+Root & Recepie does not just show third-party API outputs separately. It also creates its own overall impact score that blends:
 
-- **70% recipe impact** from Edamam's `co2EmissionsClass`
-- **30% shopping-trip impact** from the Climatiq-based trip estimate
+- 70% recipe impact from Edamam's co2EmissionsClass
+- 30% shopping-trip impact from the Climatiq-based trip estimate
 
 ### How it works
 
 1. Edamam's carbon class is mapped to a numeric score:
-   - `A+ = 100`
-   - `A = 92`
-   - `B = 82`
-   - `C = 70`
-   - `D = 55`
-   - `E = 40`
-   - `F = 22`
-   - `G = 8`
+   - A+ = 100, A = 92, B = 82, C = 70, D = 55, E = 40, F = 22, G = 8
 2. The shopping-trip emissions estimate in kilograms of CO2e is also converted into a 0-100 score.
-3. Root & Recepie blends them with a `70/30` weighting.
-4. The result is labeled as:
-   - `Low overall impact`
-   - `Lower overall impact`
-   - `Moderate overall impact`
-   - `Higher overall impact`
-   - `High overall impact`
+3. Root & Recepie blends them with a 70/30 weighting.
+4. The result is labeled as: Low overall impact, Lower overall impact, Moderate overall impact, Higher overall impact, High overall impact
 
 ## Stack
 
@@ -103,26 +91,26 @@ Visit [http://localhost:3000](http://localhost:3000).
 
 ### Vercel
 
-- Framework preset: `Next.js`
-- Root directory: `web`
+- Framework preset: Next.js
+- Root directory: web
 - Required env vars:
-  - `NEXT_PUBLIC_API_BASE_URL`
-  - `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY`
+  - NEXT_PUBLIC_API_BASE_URL
+  - NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
 
 ### Render
 
-- Service type: `Web Service`
-- Root directory: `api`
-- Build command: `npm install`
-- Start command: `npm start`
+- Service type: Web Service
+- Root directory: api
+- Build command: npm install
+- Start command: npm start
 - Required env vars:
-  - `EDAMAM_APP_ID`
-  - `EDAMAM_APP_KEY`
-  - `GOOGLE_MAPS_API_KEY`
-  - `CLIMATIQ_API_KEY`
-  - `CORS_ORIGIN`
+  - EDAMAM_APP_ID
+  - EDAMAM_APP_KEY
+  - GOOGLE_MAPS_API_KEY
+  - CLIMATIQ_API_KEY
+  - CORS_ORIGIN
 
-Example production `CORS_ORIGIN`:
+Example production CORS_ORIGIN:
 
 ```env
 CORS_ORIGIN=https://green-food-web.vercel.app
@@ -178,11 +166,11 @@ Root & Recipe helps chefs who wish to make environmentally friendly recipes with
 
 ### What new technology I learned and why I chose it
 
-- Google Maps Places + Geocoding APIs
+- Google Maps Places + Geocoding APIs:
   I used these APIs to turn a user-inputted location into coords and nearby store recs, which added to the practicality and useability of the website.
-- Climatiq API
+- Climatiq API:
   I used this to produce a trip emissions estimate to track part of the environmental impact of the user's chosen recepie.
-- Next.js App Router
+- Next.js App Router:
   Next.js helped me keep the frontend organized
 ## Technical Rationale
 
@@ -192,11 +180,11 @@ I split the website into two folders: web for the frontend and api for the backe
 
 ### Biggest technical tradeoffs and choices
 
-- No Edamam caching
+- No Edamam caching:
   After I hit the API rate limit for Edamam (the API I used for recipies), I considered implementing a cache to save on API calls, but Edamam's Terms of Service only allow caching under very specific scenarios that I was not in. Instead of sstoring recipe data in a database, I implemented memory reuse in session, which only works for a short time.
-- Custom environmental score
+- Custom environmental score:
   Instead of relying on Edamam and Climatiq environmental scores seperately, I created a blended score that makes it easier for users to compare different recepies on the app and gain a big-picture overview of the environmental impact. THe custom score is not an enviornmental truth, but a blended score of materials + travel emissions
-- Nearby store quality 
+- Nearby store quality: 
   Improved using stricter place type filtering, tiered fallback, backend scoring, priority boosts, and exclusions for weak matches like convenience/vape/boba-style results.
 
 ### Most difficult technical bug and how I debugged it
