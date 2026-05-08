@@ -168,81 +168,43 @@ CORS_ORIGIN=https://green-food-web.vercel.app
 
 ## Learning Journey
 
-### What inspired this project
+### Inspiration
 
-Food is more than fuel. It carries memory, heritage, ritual, and family identity. We wanted to build something that did not frame sustainability as a reason to give those things up, but instead as a reason to make the cooking process more intentional and informed.
+I recently watched a kdrama about cooking, where the main character (a famous chef) traveled back in time. She had various struggles, such as not being able to find ingredients quickly in Joseon Korea. I was inspired to create a product that would help chefs with finding places to buy ingredients, and to additionally better the environment, as a main plot point of the kdrama was that food is more than just fuel. It carries culture and identity, so I wanted to build something that shows that we can both save the environment and save memory and family identity through food.
 
 ### Potential impact
 
-Root & Recepie can help users make recipes they care about while better understanding tradeoffs around shopping and environmental impact. Even in MVP form, the project encourages climate-aware cooking without shaming people for cultural dishes or making them navigate several disconnected tools on their own.
+Root & Recipe helps chefs who wish to make environmentally friendly recipes with choosing recipes, ingredients, and places to buy these ingredients. Food is an important tool for transmitting heritage, strengthening social bonds, and defining identity across generations, but worries about being environmentally friendly might dissuade people from making certain foods, which we can help. Additionally, we promote climate awareness without making people navigate several different disconnected tools on their own.
 
-### What new technology we learned and why we chose it
+### What new technology I learned and why I chose it
 
-- **Google Maps Places + Geocoding APIs**  
-  We used them to turn a saved location into coordinates and nearby store recommendations, which made the product feel much more practical than a recipe browser alone.
-- **Climatiq API**  
-  We used it to produce a real trip-emissions estimate after Carbon Interface became unavailable during development.
-- **Next.js App Router**  
-  We used it to keep the multi-step frontend organized while still shipping quickly.
-
+- Google Maps Places + Geocoding APIs
+  I used these APIs to turn a user-inputted location into coords and nearby store recs, which added to the practicality and useability of the website.
+- Climatiq API
+  I used this to produce a trip emissions estimate to track part of the environmental impact of the user's chosen recepie.
+- Next.js App Router
+  Next.js helped me keep the frontend organized
 ## Technical Rationale
 
-### Why we structured the backend and frontend this way
+### Why I structured the backend and frontend this way
 
-We used a small monorepo with:
-
-- `web` for the Next.js frontend and client-side workflow
-- `api` for the Express backend that talks to all third-party APIs
-
-This kept API keys off the client, gave us one place to normalize vendor responses, and made it easier to manage error handling and rate-limit reduction in a single layer.
+I split the website into two folders: web for the frontend and api for the backend. I did this because I structured my last website like this, and it cleanly seperates the two components for debugging and deployment
 
 ### Biggest technical tradeoffs and choices
 
-- **No database for MVP speed**  
-  We used browser local storage for saved recipes, location, checklist state, map results, and impact results. This made the prototype fast to build, but state is browser-specific.
-- **No Edamam caching**  
-  Edamam's terms do not generally allow broad recipe caching, so instead of storing recipe payloads in a database we implemented short-lived in-memory request deduplication and session reuse.
-- **Store recommendations, not inventory guarantees**  
-  Google Places can help find grocery-oriented stores nearby, but it cannot prove exact ingredient inventory. We explicitly shaped the UX around "likely to carry" rather than pretending to know more than the API does.
-- **App-owned environmental score, not a raw API dump**  
-  We decided to create a blended Root & Recepie score rather than show Edamam and Climatiq as disconnected numbers. That made the result easier for users to compare, but it also required us to be explicit that the score is a weighted estimate built by our app.
+- No Edamam caching
+  After I hit the API rate limit for Edamam (the API I used for recipies), I considered implementing a cache to save on API calls, but Edamam's Terms of Service only allow caching under very specific scenarios that I was not in. Instead of sstoring recipe data in a database, I implemented memory reuse in session, which only works for a short time.
+- Custom environmental score
+  Instead of relying on Edamam and Climatiq environmental scores seperately, I created a blended score that makes it easier for users to compare different recepies on the app and gain a big-picture overview of the environmental impact. THe custom score is not an enviornmental truth, but a blended score of materials + travel emissions
+- Nearby store quality 
+  Improved using stricter place type filtering, tiered fallback, backend scoring, priority boosts, and exclusions for weak matches like convenience/vape/boba-style results.
 
-### Most difficult technical bug and how we debugged it
+### Most difficult technical bug and how I debugged it
 
-One of the trickiest bugs involved Edamam recipe IDs breaking the Next.js dynamic routes. The IDs are URI-like values, so when they were not encoded correctly they leaked slashes and `#` fragments into URLs like:
-
-```text
-/recipes/http:/www.edamam.com/ontologies/edamam.owl#recipe_.../ingredients
-```
-
-That produced 404 errors in the middle of the recipe flow. We debugged it by comparing the failing route with the expected encoded form, then introduced a small shared routing helper so recipe IDs are always treated as opaque encoded values when they move through query params and dynamic path segments.
-
-## API Notes and Limitations
-
-- Edamam does not provide a native 1-to-5 user rating in the recipe search flow we used.
-- Google Maps does not expose store inventory, so the app recommends nearby grocery-oriented places rather than exact stock.
-- Edamam's recipe carbon class is a built-in per-serving rating, but Edamam does not publicly document the full internal methodology behind the grade cutoffs.
-- The Root & Recepie overall impact score is an app-level blend of Edamam's recipe carbon class and Climatiq's trip estimate, not a claim of exact total environmental truth.
-- Nearby store quality was improved using stricter place-type filtering, tiered fallback, backend scoring, chain-priority boosts, and app-side exclusions for weak matches like convenience/vape/boba-style results.
+I ran into a bug where the Edamam recepie ID's broke the frotnend router system, making recipe pages unable to load. The ID's, when not encoded properly, had slashes and "#"'s in them, which caused 404 erros. I debugged by comparing the failing URLS with the expected URLS, and then wrote a routing helper so that removes invalid characters.
 
 ## AI Usage
 
-Yes, AI tools were used as part of development.
+I did use AI tools (specifically, Codex). An example prompt I used was "diagnose the following problem: clicking the "use this location" button on the location setting page leads to a 404 error on a route where the URL contains an Edamam recipe URI
 
-### Example prompt
-
-> Diagnose why clicking "Use this location" leads to a 404 on a dynamic Next.js recipe route where the URL contains an Edamam recipe URI.
-
-### How the AI output had to be adapted
-
-The initial diagnosis correctly pointed to an encoding bug, but the raw suggestion still needed to be adapted to this specific codebase. We added a shared route helper so Edamam IDs are encoded consistently in:
-
-- recipe detail links
-- the location step query string
-- ingredient, map, impact, and saved-recipe routes
-
-We also verified the fix against the actual failing deployed and local URLs rather than trusting the first suggestion blindly.
-
-## Final Notes
-
-Root & Recepie is intentionally an honest MVP. It combines multiple APIs into one cohesive flow, prioritizes clear tradeoffs over fake precision, and aims to show that environmental awareness and meaningful food traditions can coexist.
+Codex's diagnosis suggested that the recepie URI encoding was causing the issue, but I still had to adapt this into a plan. My suggestion was to build a shared route helper so that Edamam URI's could be consistently encoded and decoded. 
